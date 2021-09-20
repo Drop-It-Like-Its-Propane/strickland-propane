@@ -1,4 +1,4 @@
-Hello, this is Andrea's update to the ReadMe
+Hello, this is Andrea's update to the ReadMe. How fun!
 
 # strickland-propane
 
