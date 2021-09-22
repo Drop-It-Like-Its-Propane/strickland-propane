@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const { validate } = require("../db");
 const db = require("../db");
 
-const Product = db.define("user", {
+const Product = db.define("products", {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -15,7 +15,7 @@ const Product = db.define("user", {
   description: {
     type: Sequelize.TEXT,
   },
-  imageURL: {
+  imageUrl: {
     type: Sequelize.TEXT,
     defaultValue:
       "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
