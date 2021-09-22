@@ -1,7 +1,6 @@
 # strickland-propane
 
-hullo wurld
-
+hi
 We sell propane and propane accessories
 
 # FS-App-Template
