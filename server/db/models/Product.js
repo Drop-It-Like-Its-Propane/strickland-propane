@@ -22,14 +22,18 @@ const Product = db.define("products", {
   },
   quantity: {
     type: Sequelize.INTEGER,
+    defaultValue:0,
     validate: {
       min: 0,
     },
   },
 });
 
-Product.beforeCreate = (product, options) => {
+const currencyAdjust = (product) => {
   product.price = product.price * 100;
 };
+
+Product.beforeCreate(currencyAdjust);
+Product.beforeBulkCreate((product) => product.map(currencyAdjust));
 
 module.exports = Product;
