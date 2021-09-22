@@ -1,0 +1,72 @@
+ [
+     {
+         "name": "Propane Tank - Small",
+         "imageUrl": "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
+         "description": "Propane Tank - Small (20lb)",
+         "price": 20.00,
+         "category": "propane"
+     },
+     {
+        "name": "Propane Tank - Medium",
+        "imageUrl": "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
+        "description": "Propane Tank - Medium (45lb)",
+        "price": 40.00,
+        "category": "propane"
+    },
+    {
+        "name": "Propane Tank - Large",
+        "imageUrl": "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
+        "description": "Propane Tank - Large (75lb)",
+        "price": 60.00,
+        "category": "propane"
+    },
+    {
+        "name": "Propane Tank - XL",
+        "imageUrl": "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
+        "description": "Propane Tank - XL (125lb)",
+        "price": 80.00,
+        "category": "propane"
+    },
+    {
+        "name": "Gas Hose",
+        "imageUrl": "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
+        "description": "Universal size for all types of gas tanks.",
+        "price": 15.00,
+        "category": "accessories"
+    },
+    {
+        "name": "Hose Connector",
+        "imageUrl": "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
+        "description": "Gas hose connector. Works on all hoses and gas tank sizes.",
+        "price": 10.00,
+        "category": "accessories"
+    },
+    {
+        "name": "Pressure Gauge",
+        "imageUrl": "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
+        "description": "",
+        "price": 20.00,
+        "category": "accessories"
+    },
+    {
+        "name": "Cleaning Kit",
+        "imageUrl": "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
+        "description": "Universal cleaning kit for anything in our store.",
+        "price": 40.00,
+        "category": "accessories"
+    },
+    {
+        "name": "King's Grill",
+        "imageUrl": "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
+        "description": "Our premium, specialty grill created right here in Arlen. It doesn't get any better than this!",
+        "price": 350.00,
+        "category": "accessories"
+    },
+    {
+        "name": "1lb Bag of Texas BBQ",
+        "imageUrl": "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
+        "description": "Taste the meat, not the heat!",
+        "price": 35.00,
+        "category": "accessories"
+    }
+ ]
