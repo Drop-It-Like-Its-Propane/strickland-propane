@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const { validate } = require("../db");
 const db = require("../db");
 
 const Product = db.define("user", {
@@ -19,6 +20,16 @@ const Product = db.define("user", {
     defaultValue:
       "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
   },
+  quantity: {
+    type: Sequelize.INTEGER,
+    validate: {
+      min: 0,
+    },
+  },
 });
+
+Product.beforeCreate = (product, options) => {
+  product.price = product.price * 100;
+};
 
 module.exports = Product;
