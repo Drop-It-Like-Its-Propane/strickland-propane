@@ -1,3 +1,5 @@
+Hello, this is Andrea's update to the ReadMe. How fun!
+
 # strickland-propane
 
 hi
@@ -77,3 +79,5 @@ Database Setup
       collaborator on the app.
 
 Now, you should be deployed!
+
+-Peter

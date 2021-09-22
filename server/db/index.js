@@ -5,9 +5,9 @@ const db = require('./db')
 const OrderDetails = require('./models/OrderDetails')
 const Orders = require('./models/Orders')
 const Product = require('./models/Product')
+
 const User = require('./models/User')
 
-//associations could go here!
 
 Orders.belongsTo(User);
 User.hasMany(Orders);
