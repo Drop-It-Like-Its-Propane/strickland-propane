@@ -14,7 +14,32 @@ const User = db.define('user', {
   },
   password: {
     type: Sequelize.STRING,
+    allowNull: false
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      isEmail: true
+    }
+  },
+  firstName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  lastName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue: "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg"
   }
+
 })
 
 module.exports = User
