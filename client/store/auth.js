@@ -47,6 +47,16 @@ export const logout = () => {
   }
 }
 
+export const signupUser = (username, password, email, firstName, lastName, method) => async dispatch => {
+  try {
+    const res = await axios.post(`/auth/${method}`, {username, password, email, firstName, lastName})
+    window.localStorage.setItem(TOKEN, res.data.token)
+    dispatch(me())
+  } catch (error) {
+    return dispatch(setAuth({error: error}))
+  }
+}
+
 /**
  * REDUCER
  */
