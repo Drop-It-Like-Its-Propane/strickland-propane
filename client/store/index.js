@@ -3,9 +3,10 @@ import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import auth from "./auth";
+import productReducer from "./singleProduct";
 import productsReducer from "./allProducts";
 
-const reducer = combineReducers({ auth, products: productsReducer });
+const reducer = combineReducers({ auth, allProducts: productsReducer, product: productReducer });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );
