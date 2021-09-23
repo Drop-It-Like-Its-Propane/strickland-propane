@@ -29,6 +29,7 @@ const Product = db.define("products", {
   },
 });
 
+
 const currencyAdjust = (product) => {
   product.price = Math.floor(product.price * 100);
 };
