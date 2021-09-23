@@ -29,3 +29,25 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.productpictures {
+  height: 150px;
+  width: 150px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 10px;
+  align-content: center;
+}
+
+.description {
+  inline-size: 150px;
+  overflow-wrap: break-word;
+}
+
+.title {
+  inline-size: 150px;
+  overflow-wrap: break-word;
+}
