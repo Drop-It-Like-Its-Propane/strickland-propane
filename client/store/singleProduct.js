@@ -1,7 +1,6 @@
 //Single Product Reducer
 
 import axios from "axios";
-import { noExtendLeft } from "sequelize/types/lib/operators";
 
 //ACTION TYPES
 const SET_PRODUCT = "SET_PRODUCT";
@@ -22,8 +21,8 @@ export const fetchProduct = (id, history) => {
       const response = await axios.get(`/api/products/${id}`);
       dispatch(setProduct(response.data));
     } catch (error) {
-      //this may need to be changed
-      history.push("/404");
+      // //this may need to be changed
+      // history.push("/404");
     }
   };
 };
@@ -37,7 +36,7 @@ export default function productReducer(state = initialState, action) {
   switch (action.type) {
     case SET_PRODUCT:
       //add product to state
-      return Object.assign(...state, ...action.product);
+      return action.product;
     default:
       return state;
   }
