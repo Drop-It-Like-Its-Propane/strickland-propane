@@ -5,7 +5,7 @@ import React from 'react'
  */
 export const Header = () => {
   return (
-    <div class="header">
+    <div className="header">
       <h1 id="stricklandPropane">Strickland Propane</h1>
     </div>
   )
