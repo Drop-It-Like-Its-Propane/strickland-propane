@@ -6,19 +6,24 @@ import { fetchProduct } from "../store/singleProduct";
 class SingleProduct extends React.Component {
   constructor() {
     super();
-    //eventually add a buy button
+    this.insertDecimal = this.insertDecimal.bind(this);
   }
   componentDidMount() {
     this.props.getProduct(this.props.match.params.id, { history });
     console.log(this);
   }
+
+  insertDecimal(num) {
+    return (num / 100).toFixed(2);
+  }
+
   render() {
     const product = this.props.product;
     return (
       <div>
         <h2> {product.name} </h2>
         <img src={product.imageUrl} />
-        <div>{product.price}</div>
+        <div>{this.insertDecimal(product.price)}</div>
         <p>{product.description}</p>
         <button>Add to Cart</button>
       </div>
