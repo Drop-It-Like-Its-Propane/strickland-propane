@@ -1,15 +1,36 @@
 import React from "react";
 import { connect } from "react-redux";
+import { fetchProducts } from "../store/allProducts";
+import Products from "./Products";
 
 class AllProducts extends React.Component {
+  componentDidMount() {
+    this.props.getProducts();
+  }
   render() {
-    return <div>hi</div>;
+    return (
+      <div className="container">
+        {this.props.products.map((product) => {
+          return (
+            <div key={product.id}>
+              <Products products={product} />
+            </div>
+          );
+        })}
+      </div>
+    );
   }
 }
 
-mapstate = (state) => {
+const mapState = (state) => {
   return {
     products: state.products,
   };
 };
-export default connect(mapState)(AllProducts);
+
+const mapDispatch = (dispatch) => {
+  return {
+    getProducts: () => dispatch(fetchProducts()),
+  };
+};
+export default connect(mapState, mapDispatch)(AllProducts);

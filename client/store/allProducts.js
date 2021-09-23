@@ -11,7 +11,7 @@ export const setProducts = (products) => {
 
 export const fetchProducts = () => {
   return async (dispatch) => {
-    const { data } = await Axios.get("api/products");
+    const { data } = await Axios.get("/api/products");
     const products = setProducts(data);
     dispatch(products);
   };
@@ -20,7 +20,7 @@ export const fetchProducts = () => {
 export default function productsReducer(state = [], action) {
   switch (action.type) {
     case SET_PRODUCTS:
-      return actions.products;
+      return action.products;
     default:
       return state;
   }
