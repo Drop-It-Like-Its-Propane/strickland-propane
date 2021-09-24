@@ -19,12 +19,27 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-// models.products.findAll({
-//     include: [
-//       {model: models.comments, include: [models.comments.users] }
-//     ]
-//   })
-//Add an item - Post Route
+//Add an item to cart - Post Route
+router.post("/", async (req, res, next) => {
+  //Maybe
+  let currentUser = req.body.data.userId
+  try {
+    let newOrder=  await Orders.create({
+        userId: currentUser
+      })
+     res.send (await Promise.all(req.body.data.order. map((product) =>  {
+         OrderDetails.create({
+          orderId: newOrder.orderId,
+          productId: product.id,
+          totalPrice: product.price,
+          quantity: product.quantity,
+      })
+    })
+     ))
+  } catch (error) {
+    next(error);
+  }
+});
 
 //Get Order History (Complete Orders)
 
