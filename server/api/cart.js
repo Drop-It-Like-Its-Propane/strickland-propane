@@ -20,22 +20,19 @@ router.get("/:id", async (req, res, next) => {
 });
 
 //Add an item to cart - Post Route
-router.post("/", async (req, res, next) => {
+router.post("/:id", async (req, res, next) => {
   //Maybe
-  let currentUser = req.body.data.userId
+  let currentUser = req.params.id
   try {
     let newOrder=  await Orders.create({
         userId: currentUser
       })
-     res.send (await Promise.all(req.body.data.order. map((product) =>  {
-         OrderDetails.create({
+     res.send (await OrderDetails.create({
           orderId: newOrder.orderId,
-          productId: product.id,
-          totalPrice: product.price,
-          quantity: product.quantity,
+          productId: req.body.data.productId,
+          totalPrice: req.body.data.price
       })
-    })
-     ))
+     )
   } catch (error) {
     next(error);
   }
