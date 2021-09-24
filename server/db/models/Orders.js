@@ -6,6 +6,10 @@ const Orders = db.define('orders', {
     type:Sequelize.INTEGER,
     allowNull: false
 
+  },
+  orderComplete:{
+    type:Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 
