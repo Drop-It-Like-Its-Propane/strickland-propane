@@ -9,7 +9,7 @@ const SET_PRODUCT = "SET_PRODUCT";
 export const setProduct = (product) => {
   return {
     type: "SET_PRODUCT",
-    product,
+    product
   };
 };
 
@@ -21,8 +21,8 @@ export const fetchProduct = (id, history) => {
       const response = await axios.get(`/api/products/${id}`);
       dispatch(setProduct(response.data));
     } catch (error) {
-      // //this may need to be changed
-      // history.push("/404");
+      //this may need to be changed
+      history.push("/404");
     }
   };
 };

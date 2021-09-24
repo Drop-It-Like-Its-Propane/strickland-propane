@@ -9,9 +9,13 @@ router.get("/:id", async (req, res, next) => {
   try {
     const orders = await Orders.findAll({
       where: { userId: currentUser, orderComplete: false },
-      include: { model: OrderDetails, required: true, include: {
-          model: Product
-      } }
+      include: {
+        model: OrderDetails,
+        required: true,
+        include: {
+          model: Product,
+        },
+      },
     });
     res.json(orders);
   } catch (error) {
@@ -20,19 +24,21 @@ router.get("/:id", async (req, res, next) => {
 });
 
 //Add an item to cart - Post Route
+//this code is ugly...but it works for now
 router.post("/:id", async (req, res, next) => {
-  //Maybe
-  let currentUser = req.params.id
+  let currentUser = req.params.id;
   try {
-    let newOrder=  await Orders.create({
-        userId: currentUser
+    let newOrder = {};
+    await Orders.create({
+      userId: currentUser,
+    }).then((result) => (newOrder.id = result.id));
+    res.send(
+      await OrderDetails.create({
+        orderId: newOrder.id,
+        productId: req.body.id,
+        totalPrice: req.body.price,
       })
-     res.send (await OrderDetails.create({
-          orderId: newOrder.orderId,
-          productId: req.body.data.productId,
-          totalPrice: req.body.data.price
-      })
-     )
+    );
   } catch (error) {
     next(error);
   }
