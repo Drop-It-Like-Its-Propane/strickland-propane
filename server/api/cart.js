@@ -44,12 +44,30 @@ router.post("/:id", async (req, res, next) => {
   }
 });
 
+// Adjust number of item in cart
+
 //Get Order History (Complete Orders)
 
 //Incrementing Cart
+/* This route needs to be updated once we develop a form that sends OrderId, ProductId, and Quantity
+in the request body.  */
+router.put("/:orderId/:productId/:quantity", async (req, res, next) => {
+  try {
+    let updated = await OrderDetails.update(
+      {quantity: req.params.quantity},
+      {where: {orderId: req.params.orderId, productId: req.params.productId},
+       returning: true})
+       console.log(updated[1][0].dataValues)
+      res.send(updated[1][0].dataValues)
+  } catch (error) {
+    next(error)
+  }
+})
+
 
 //Checkout Cart
 
 //Remove Item from Cart
+
 
 module.exports = router;
