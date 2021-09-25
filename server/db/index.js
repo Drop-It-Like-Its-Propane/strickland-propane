@@ -2,22 +2,22 @@
 
 const db = require('./db')
 
-const OrderDetails = require('./models/OrderDetails')
-const Orders = require('./models/Orders')
+const OrderDetail = require('./models/OrderDetail')
+const Order = require('./models/Order')
 const Product = require('./models/Product')
 const User = require('./models/User')
 
 
-Orders.belongsTo(User);
-User.hasMany(Orders);
-Orders.hasMany(OrderDetails);
-OrderDetails.belongsTo(Orders);
-Product.hasMany(OrderDetails);
-OrderDetails.belongsTo(Product);
+Order.belongsTo(User);
+User.hasMany(Order);
+Order.hasMany(OrderDetail);
+OrderDetail.belongsTo(Order);
+Product.hasMany(OrderDetail);
+OrderDetail.belongsTo(Product);
 
 module.exports = {
   db,
   models: {
-    User, OrderDetails, Product, Orders
+    User, OrderDetail, Product, Order
   },
 }
