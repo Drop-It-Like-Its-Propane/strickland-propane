@@ -42,7 +42,7 @@ router.post("/:id/create", async (req, res, next) => {
   }
 });
 
-//Add an item to cart - Post Route
+// Adjust number of item in cart
 router.post("/:id", async (req, res, next) => {
   try {
     res.send(
@@ -60,6 +60,21 @@ router.post("/:id", async (req, res, next) => {
 //Get Order History (Complete Orders)
 
 //Incrementing Cart
+/* This route needs to be updated once we develop a form that sends OrderId, ProductId, and Quantity
+in the request body.  */
+router.put("/:orderId/:productId/:quantity", async (req, res, next) => {
+  try {
+    let updated = await OrderDetails.update(
+      {quantity: req.params.quantity},
+      {where: {orderId: req.params.orderId, productId: req.params.productId},
+       returning: true})
+       console.log(updated[1][0].dataValues)
+      res.send(updated[1][0].dataValues)
+  } catch (error) {
+    next(error)
+  }
+})
+
 
 //Checkout Cart
 router.put("/:id/checkout", async (req, res, next) => {
@@ -74,5 +89,6 @@ router.put("/:id/checkout", async (req, res, next) => {
 });
 
 //Remove Item from Cart
+
 
 module.exports = router;
