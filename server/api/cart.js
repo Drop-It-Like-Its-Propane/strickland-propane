@@ -27,25 +27,29 @@ router.get("/:id", async (req, res, next) => {
 router.post("/:id/create", async (req, res, next) => {
   let currentUser = req.params.id;
   try {
-      let newOrder = await Order.create({
-      userId: currentUser})
-      res.send(await OrderDetail.create({
+    let newOrder = await Order.create({
+      userId: currentUser,
+    });
+    res.send(
+      await OrderDetail.create({
         orderId: newOrder.id,
         productId: req.body.id,
         totalPrice: req.body.price,
-        })
-      )
-    } catch(error) {
-      next(error)
-    }})
+      })
+    );
+  } catch (error) {
+    next(error);
+  }
+});
 
 //Add an item to cart - Post Route
 router.post("/:id", async (req, res, next) => {
   try {
-    res.send(await OrderDetail.create({
-      orderId: req.body.cartId,
-      productId: req.body.id,
-      totalPrice: req.body.price,
+    res.send(
+      await OrderDetail.create({
+        orderId: req.body.cartId,
+        productId: req.body.id,
+        totalPrice: req.body.price,
       })
     );
   } catch (error) {
@@ -58,6 +62,16 @@ router.post("/:id", async (req, res, next) => {
 //Incrementing Cart
 
 //Checkout Cart
+router.put("/:id/checkout", async (req, res, next) => {
+  try {
+    res.send( await Order.update({
+      orderComplete: true}, {
+      where: { userId: req.params.id },
+    }))
+  } catch (error) {
+    next(error);
+  }
+});
 
 //Remove Item from Cart
 

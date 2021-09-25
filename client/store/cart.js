@@ -4,6 +4,7 @@ import axios from "axios";
 const SET_CART = "SET_CART";
 const ADD_ITEM = "ADD_ITEM";
 const CREATE_CART = "CREATE_CART";
+const CHECKOUT = "CHECKOUT"
 
 //ACTION CREATORS
 export const _setCart = (cart) => {
@@ -24,6 +25,12 @@ export const _createCart = (cart) => {
     cart,
   };
 };
+export const _checkout = (cart) => {
+  return{
+    type: "CHECKOUT",
+    cart
+  }
+}
 
 //THUNKS
 //get all items in current cart
@@ -61,6 +68,18 @@ export const addItem = (id, orderDetails) => {
     }
   };
 };
+
+//checkout cart
+export const checkout = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`api/cart/${id}/checkout`)
+      dispatch(_checkout(response.data))
+    } catch (error){
+      //stuff happens
+    }
+  }
+}
 
 //REDUCER
 //Initial State
