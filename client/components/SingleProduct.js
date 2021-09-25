@@ -14,7 +14,6 @@ class SingleProduct extends React.Component {
   }
   componentDidMount() {
     this.props.getProduct(this.props.match.params.id, { history });
-    console.log(this.props.cart)
   }
   componentDidUpdate(prevProps){
     if (prevProps.user != this.props.user)
@@ -32,7 +31,7 @@ class SingleProduct extends React.Component {
     } else {
     let mergedDetails = {
       ...this.props.product,
-      cartId:this.props.cart.id
+      cartId: (this.props.cart.orderId? this.props.cart.orderId: this.props.cart.id)
     }
     this.props.addItem(this.props.user, mergedDetails)}
   }
