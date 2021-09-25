@@ -2,7 +2,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchProduct } from "../store/singleProduct";
-import { addItem } from "../store/cart";
+import { addItem, fetchCart, createCart } from "../store/cart";
+
 
 
 class SingleProduct extends React.Component {
@@ -13,6 +14,11 @@ class SingleProduct extends React.Component {
   }
   componentDidMount() {
     this.props.getProduct(this.props.match.params.id, { history });
+    console.log(this.props.cart)
+  }
+  componentDidUpdate(prevProps){
+    if (prevProps.user != this.props.user)
+    this.props.getCart(this.props.user)
   }
 
   insertDecimal(num) {
@@ -21,7 +27,14 @@ class SingleProduct extends React.Component {
 
   handleClick(event) {
     event.preventDefault();
-    this.props.addItem(this.props.user, this.props.product);
+    if(!this.props.cart.id) {
+      this.props.createCart(this.props.user, this.props.product)
+    } else {
+    let mergedDetails = {
+      ...this.props.product,
+      cartId:this.props.cart.id
+    }
+    this.props.addItem(this.props.user, mergedDetails)}
   }
 
   render() {
@@ -41,12 +54,15 @@ class SingleProduct extends React.Component {
 
 const mapState = (state) => {
   return { product: state.product,
-  user: state.auth.id };
+  user: state.auth.id,
+  cart: state.cart };
 };
 
 const mapDispatch = (dispatch, { history }) => {
   return {
     getProduct: (id) => dispatch(fetchProduct(id, history)),
+    createCart: (id, product) => dispatch(createCart(id, product)),
+    getCart: (id) => dispatch(fetchCart(id)),
     addItem: (id, product) => dispatch(addItem(id, product)),
   };
 };

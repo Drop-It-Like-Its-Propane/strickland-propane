@@ -3,6 +3,7 @@ import axios from "axios";
 //ACTION TYPES
 const SET_CART = "SET_CART";
 const ADD_ITEM = "ADD_ITEM";
+const CREATE_CART = "CREATE_CART";
 
 //ACTION CREATORS
 export const _setCart = (cart) => {
@@ -17,14 +18,32 @@ export const _addItem = (item) => {
     item,
   };
 };
+export const _createCart = (cart) => {
+  return {
+    type: "CREATE_CART",
+    cart,
+  };
+};
 
 //THUNKS
 //get all items in current cart
 export const fetchCart = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`/api/cart/${id}`);
-      dispatch(_setCart(response.data));
+      const { data } = await axios.get(`/api/cart/${id}`);
+      dispatch(_setCart(data[0]));
+    } catch (error) {
+      //stuff happens
+    }
+  };
+};
+
+//create new cart if one does not exist
+export const createCart = (id, product) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`/api/cart/${id}/create`, product);
+      dispatch(_createCart(response.data));
     } catch (error) {
       //stuff happens
     }
@@ -32,10 +51,10 @@ export const fetchCart = (id) => {
 };
 
 //add product to cart
-export const addItem = (id, product) => {
+export const addItem = (id, orderDetails) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/api/cart/${id}`, product);
+      const response = await axios.post(`/api/cart/${id}`, orderDetails);
       dispatch(_addItem(response.data));
     } catch (error) {
       //stuff happens
@@ -45,16 +64,17 @@ export const addItem = (id, product) => {
 
 //REDUCER
 //Initial State
-const initialState = {};
+const initialState = [];
 
 //Reducer
-export default function productReducer(state = initialState, action) {
+export default function cartReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CART:
-      //add cart to state
-      return [...action.cart];
+      return action.cart;
+    case CREATE_CART:
+      return action.cart;
     case ADD_ITEM:
-      return [...state, action.item];
+      return { ...state, orderDetails: [...state.orderDetails, action.item] };
     default:
       return state;
   }
