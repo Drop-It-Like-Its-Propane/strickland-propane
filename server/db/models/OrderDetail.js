@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const OrderDetails = db.define('orderDetails', {
+const OrderDetail = db.define('orderDetail', {
     orderId: {
         type: Sequelize.INTEGER,
         allowNull: false
@@ -13,7 +13,7 @@ const OrderDetails = db.define('orderDetails', {
     quantity: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 1,
         validate: {
             min: 0
         }
@@ -32,7 +32,7 @@ const currencyAdjust = (details) => {
     details.totalPrice = Math.floor(details.totalPrice * 100)
   };
 
-  OrderDetails.beforeCreate(currencyAdjust);
-  OrderDetails.beforeBulkCreate((detail) => detail.map(currencyAdjust));
+  OrderDetail.beforeCreate(currencyAdjust);
+  OrderDetail.beforeBulkCreate((detail) => detail.map(currencyAdjust));
 
-module.exports = OrderDetails;
+module.exports = OrderDetail;
