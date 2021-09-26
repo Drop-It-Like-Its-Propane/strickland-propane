@@ -64,7 +64,7 @@ router.post("/:id", async (req, res, next) => {
 in the request body.  */
 router.put("/:orderId/:productId/:quantity", async (req, res, next) => {
   try {
-    let updated = await OrderDetails.update(
+    let updated = await OrderDetail.update(
       {quantity: req.params.quantity},
       {where: {orderId: req.params.orderId, productId: req.params.productId},
        returning: true})
