@@ -19,6 +19,8 @@ router.get('/', requireToken, isAdmin, async (req, res, next) => {
 })
 
 // To see a single user, must be the user or an admin
+// Make sure to check the data type
+// Req.query
 router.get('/:username', verifyUser, async (req, res, next) => {
   try {
     const user = await User.findOne({
