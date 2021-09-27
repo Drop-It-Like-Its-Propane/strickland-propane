@@ -1,6 +1,6 @@
 'use strict'
 
-const {db, models: {User, Product, Orders, OrderDetails} } = require('../server/db');
+const {db, models: {User, Product, Order, OrderDetail} } = require('../server/db');
 const productSeed = require('../seed-data-products.json');
 const userSeed = require('../seed-data-users.json');
 const orderSeed = require('../seed-data-orders.json')
@@ -14,8 +14,8 @@ async function seed() {
   await db.sync({ force: true }) // clears db and matches models to tables
   const users = await Promise.all(userSeed.map((user) => User.create(user)));
   const products = await Promise.all(productSeed.map((product) => Product.create(product)));
-  const orders = await Promise.all(orderSeed.map((order) => Orders.create(order)));
-  const orderDetails = await Promise.all(detailsSeed.map((detail) => OrderDetails.create(detail)));
+  const orders = await Promise.all(orderSeed.map((order) => Order.create(order)));
+  const orderDetails = await Promise.all(detailsSeed.map((detail) => OrderDetail.create(detail)));
   console.log('db synced!')
 
   // Creating Users
