@@ -2,7 +2,7 @@
 
 import React from "react";
 import { connect } from "react-redux";
-import {fetchCart} from '../store/cart'
+import { fetchCart } from "../store/cart";
 
 class Cart extends React.Component {
   constructor() {
@@ -19,6 +19,7 @@ class Cart extends React.Component {
   }
 
   render() {
+
     const userOrderDetails = this.props.cart.orderDetails || []
     console.log(userOrderDetails)
     return (
@@ -36,9 +37,9 @@ class Cart extends React.Component {
           )
         })}
       </div>
-        )}
-
- }
+    );
+  }
+}
 
 const mapState = (state) => {
   return {

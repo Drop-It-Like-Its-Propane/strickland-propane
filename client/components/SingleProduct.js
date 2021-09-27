@@ -3,7 +3,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchProduct } from "../store/singleProduct";
 import { addItem, fetchCart, createCart } from "../store/cart";
-import {me} from '../store/auth'
+import {me} from '../store/auth';
+import { Link } from "react-router-dom";
 
 //add 'Toast Notification" for adding item to cart
 //Add in STRIPE
@@ -42,6 +43,7 @@ class SingleProduct extends React.Component {
     this.props.addItem(this.props.user, mergedDetails)}
   }
 
+
   render() {
     const { product } = this.props;
     return (
@@ -51,6 +53,7 @@ class SingleProduct extends React.Component {
         <div>{this.insertDecimal(product.price)}</div>
         <p>{product.description}</p>
         <button onClick={this.handleClick}>Add to Cart</button>
+        <Link to="/products"> All Products </Link>
       </div>
     );
   }
