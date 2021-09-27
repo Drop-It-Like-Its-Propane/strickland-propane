@@ -2,8 +2,7 @@ const router = require("express").Router();
 const {
   models: { Order, OrderDetail, Product },
 } = require("../db");
-const {requireToken, isAdmin, verifyUser} = require('./gatekeeper')
-
+const { requireToken, isAdmin, verifyUser } = require("./gatekeeper");
 
 //Get 'Cart' (Open Order)
 router.get("/:id", verifyUser, async (req, res, next) => {
@@ -67,16 +66,18 @@ in the request body.  */
 router.put("/:orderId/:productId/:quantity", verifyUser, async (req, res, next) => {
   try {
     let updated = await OrderDetail.update(
-      {quantity: req.params.quantity},
-      {where: {orderId: req.params.orderId, productId: req.params.productId},
-       returning: true})
-       console.log(updated[1][0].dataValues)
-      res.send(updated[1][0].dataValues)
+      { quantity: req.params.quantity },
+      {
+        where: { orderId: req.params.orderId, productId: req.params.productId },
+        returning: true,
+      }
+    );
+    console.log(updated[1][0].dataValues);
+    res.send(updated[1][0].dataValues);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
-
+});
 
 //Checkout Cart
 router.put("/:id/checkout", verifyUser, async (req, res, next) => {
