@@ -21,6 +21,7 @@ class Cart extends React.Component {
     this.props.checkout(this.props.match.params.id)}
 
 
+
   render() {
     const userOrderDetails = this.props.cart.orderDetails || []
     return (
@@ -49,9 +50,10 @@ const mapState = (state) => {
   };
 };
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = (dispatch, {history}) => {
   return {
     getCart: (id) => dispatch(fetchCart(id)),
+    checkout: (id) => dispatch(checkout(id, history))
   };
 };
 export default connect(mapState, mapDispatch)(Cart);
