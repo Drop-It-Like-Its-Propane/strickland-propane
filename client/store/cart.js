@@ -59,7 +59,10 @@ export const fetchCart = (id) => {
 export const createCart = (id, product) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/api/cart/${id}/create`, product);
+      const response = await axios.post(`/api/cart/${id}/create`, product,
+      {
+        headers: { authorization: window.localStorage.getItem("token") },
+      });
       dispatch(_createCart(response.data));
     } catch (error) {
       //stuff happens
