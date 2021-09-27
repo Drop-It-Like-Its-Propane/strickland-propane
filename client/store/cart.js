@@ -4,7 +4,7 @@ import axios from "axios";
 const SET_CART = "SET_CART";
 const ADD_ITEM = "ADD_ITEM";
 const CREATE_CART = "CREATE_CART";
-const CHECKOUT = "CHECKOUT"
+const CHECKOUT = "CHECKOUT";
 
 //ACTION CREATORS
 export const _setCart = (cart) => {
@@ -26,18 +26,22 @@ export const _createCart = (cart) => {
   };
 };
 export const _checkout = (cart) => {
-  return{
+  return {
     type: "CHECKOUT",
-    cart
-  }
-}
+    cart,
+  };
+};
 
 //THUNKS
 //get all items in current cart
 export const fetchCart = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/cart/${id}`);
+
+      const { data } = await axios.get(`/api/cart/${id}`, {
+        headers: {"authorization": window.localStorage.getItem('token')}
+      }
+      );
       dispatch(_setCart(data[0]));
     } catch (error) {
       //stuff happens
@@ -73,13 +77,13 @@ export const addItem = (id, orderDetails) => {
 export const checkout = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.put(`api/cart/${id}/checkout`)
-      dispatch(_checkout(response.data))
-    } catch (error){
+      const response = await axios.put(`api/cart/${id}/checkout`);
+      dispatch(_checkout(response.data));
+    } catch (error) {
       //stuff happens
     }
-  }
-}
+  };
+};
 
 //REDUCER
 //Initial State

@@ -9,6 +9,7 @@ import { me } from "./store";
 import SingleProduct from "./components/SingleProduct";
 import OrderConfirmation from "./components/CheckoutConfirmation";
 import SingleUser from './components/SingleUser'
+import CartPlaceholder from "./components/CartPlaceholder";
 
 /**
  * COMPONENT
@@ -32,6 +33,7 @@ class Routes extends Component {
             <Route path="/signup" component={Signup} />
             <Route exact path="/products/:id" component={SingleProduct}/>
             <Route path="/users/:userid" component={SingleUser} />
+            <Route exact path="/cart/:id" component={CartPlaceholder} />
 
           </Switch>
         ) : (
