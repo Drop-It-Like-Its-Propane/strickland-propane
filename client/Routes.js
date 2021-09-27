@@ -7,6 +7,7 @@ import { Signup } from './components/SignupForm';
 import Home from './components/Home';
 import {me} from './store'
 import SingleProduct from './components/SingleProduct'
+import SingleUser from './components/SingleUser'
 
 /**
  * COMPONENT
@@ -24,21 +25,45 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
+            <Route path="/" exact component={AllProducts} />
             <Route exact path="/products" component={AllProducts} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route exact path="/products/:id" component={SingleProduct}/>
+            <Route path="/users/:userid" component={SingleUser} />
 
           </Switch>
         ) : (
           <Switch>
-            <Route path="/" exact component={Login} />
+            <Route path="/home" component={Home} />
+            <Route path="/" exact component={Home} />
             <Route exact path="/products" component={AllProducts} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route exact path="/products/:id" component={SingleProduct} />
           </Switch>
         )}
+        {/* {isAdmin ? (
+          <Switch>
+            <Route path="/home" component={Home} />
+            <Route path="/" exact component={AllProducts} />
+            <Route exact path="/products" component={AllProducts} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route exact path="/products/:id" component={SingleProduct}/>
+
+            <Route path="/users" component={Users} />
+          </Switch>
+        ) : (
+          <Switch>
+            <Route path="/home" component={Home} />
+            <Route path="/" exact component={Home} />
+            <Route exact path="/products" component={AllProducts} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route exact path="/products/:id" component={SingleProduct} />
+          </Switch>
+        )} */}
       </div>
     );
   }
