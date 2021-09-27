@@ -2,9 +2,11 @@ const router = require("express").Router();
 const {
   models: { Order, OrderDetail, Product },
 } = require("../db");
+const {requireToken, isAdmin, verifyUser} = require('./gatekeeper')
+
 
 //Get 'Cart' (Open Order)
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", requireToken, verifyUser, async (req, res, next) => {
   let currentUser = req.params.id;
   try {
     const orders = await Order.findAll({
@@ -64,7 +66,7 @@ router.post("/:id", async (req, res, next) => {
 in the request body.  */
 router.put("/:orderId/:productId/:quantity", async (req, res, next) => {
   try {
-    let updated = await OrderDetails.update(
+    let updated = await OrderDetail.update(
       {quantity: req.params.quantity},
       {where: {orderId: req.params.orderId, productId: req.params.productId},
        returning: true})
