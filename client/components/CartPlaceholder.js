@@ -9,14 +9,19 @@ class Cart extends React.Component {
     this.props.getCart(this.props.match.params.id);
   }
   render() {
-    console.log(this.props.cart)
+    let userCart = this.props.cart
     return (
       <div className="container">
-        Cart Placeholder
+        <div> {userCart.id} </div>
+        {this.props.cart.orderDetails.map((item) => {
+          return (
+            <div. key={item.id} className="singleContainer"/>
+          )
+        }}
       </div>
         )}
 
-      }
+ }
 
 const mapState = (state) => {
   return {

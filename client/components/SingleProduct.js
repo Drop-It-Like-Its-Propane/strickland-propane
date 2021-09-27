@@ -13,13 +13,13 @@ class SingleProduct extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
-    this.props.getProduct(this.props.match.params.id, { history });
     this.props.getUser()
+    this.props.getProduct(this.props.match.params.id, { history });
   }
-  
-  componentDidUpdate(prevProps){
-    if (prevProps.user != this.props.user)
-    this.props.getCart(this.props.user)
+
+  componentDidUpdate(){
+    if (!this.props.cart.id) {
+    this.props.getCart(this.props.user)}
   }
 
   insertDecimal(num) {
