@@ -10,6 +10,7 @@
 
 body {
   font-family: sans-serif;
+  background-color: antiquewhite;
 }
 
 a {
@@ -40,6 +41,10 @@ form div {
   flex-wrap: wrap;
   gap: 10px 10px;
   align-content: center;
+}
+
+.singleContainer {
+  background-color: burlywood;
 }
 
 .description {
