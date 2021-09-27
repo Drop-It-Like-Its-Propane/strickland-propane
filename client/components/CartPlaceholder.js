@@ -5,9 +5,19 @@ import { connect } from "react-redux";
 import { fetchCart } from "../store/cart";
 
 class Cart extends React.Component {
+  constructor() {
+  super()
+  this.insertDecimal = this.insertDecimal.bind(this);
+
+}
   componentDidMount() {
     this.props.getCart(this.props.match.params.id);
   }
+
+  insertDecimal(num) {
+    return (num / 100).toFixed(2);
+  }
+
   render() {
 
     const userOrderDetails = this.props.cart.orderDetails || []
@@ -22,7 +32,7 @@ class Cart extends React.Component {
             <img src = {item.imageUrl} />
             <div> {item.product.description} </div>
             <div> Quantity: {item.quantity} </div>
-            <div> Price: {item.totalPrice} </div>
+            <div> Price: {this.insertDecimal(item.totalPrice)} </div>
             </div>
           )
         })}

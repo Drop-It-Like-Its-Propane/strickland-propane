@@ -120,7 +120,7 @@ export default function cartReducer(state = initialState, action) {
     case SET_CART:
       return action.cart;
     case CREATE_CART:
-      return action.cart;
+      return {...action.cart.newOrder, orderDetails: [action.cart.newOrderDetails] }
     case ADD_ITEM:
       console.log("stateful", state.orderDetails);
       return { ...state, orderDetails: [...state.orderDetails, action.item] };
