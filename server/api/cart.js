@@ -2,9 +2,11 @@ const router = require("express").Router();
 const {
   models: { Order, OrderDetail, Product },
 } = require("../db");
+const {requireToken, isAdmin, verifyUser} = require('./gatekeeper')
+
 
 //Get 'Cart' (Open Order)
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", requireToken, verifyUser, async (req, res, next) => {
   let currentUser = req.params.id;
   try {
     const orders = await Order.findAll({

@@ -1,10 +1,9 @@
-const {models: {User}} = require('../db')
+const { models: {User }} = require('../db')
 
 //middle wear for requests requiring login to view
 const requireToken = async (req,res,next) =>{
   try {
-    const token = req.headers.authorization
-    const user = await User.findByToken(token)
+    const user = await User.findByToken(req.headers.authorization)
     req.user = user
     next()
   } catch (error) {
@@ -21,8 +20,17 @@ const isAdmin = (req, res, next) => {
   }
 }
 
+//verify user access
+const verifyUser = (req, res, next) => {
+  if (parseInt(req.params.id) !== req.user.id) {
+    return res.status(403).send('User does not have permission to view this page')
+  } else {
+    next()
+  }
+}
 
 module.exports = {
   requireToken,
-  isAdmin
+  isAdmin,
+  verifyUser
 }
