@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchProduct } from "../store/singleProduct";
 import { addItem, fetchCart, createCart } from "../store/cart";
-
+import {me} from '../store/auth'
 
 
 class SingleProduct extends React.Component {
@@ -14,7 +14,9 @@ class SingleProduct extends React.Component {
   }
   componentDidMount() {
     this.props.getProduct(this.props.match.params.id, { history });
+    this.props.getUser()
   }
+  
   componentDidUpdate(prevProps){
     if (prevProps.user != this.props.user)
     this.props.getCart(this.props.user)
@@ -37,7 +39,6 @@ class SingleProduct extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     const { product } = this.props;
     return (
       <div>
@@ -63,6 +64,7 @@ const mapDispatch = (dispatch, { history }) => {
     createCart: (id, product) => dispatch(createCart(id, product)),
     getCart: (id) => dispatch(fetchCart(id)),
     addItem: (id, product) => dispatch(addItem(id, product)),
+    getUser: () => dispatch(me())
   };
 };
 
