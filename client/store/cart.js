@@ -74,7 +74,9 @@ export const createCart = (id, product) => {
 export const addItem = (id, orderDetails) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/api/cart/${id}`, orderDetails);
+      const response = await axios.post(`/api/cart/${id}`, orderDetails, {
+        headers: { authorization: window.localStorage.getItem("token") },
+      });
       dispatch(_addItem(response.data));
     } catch (error) {
       //stuff happens
@@ -86,7 +88,9 @@ export const addItem = (id, orderDetails) => {
 export const checkout = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.put(`api/cart/${id}/checkout`);
+      const response = await axios.put(`api/cart/${id}/checkout`, {
+        headers: { authorization: window.localStorage.getItem("token") },
+      });
       dispatch(_checkout(response.data));
     } catch (error) {
       //stuff happens
@@ -99,11 +103,13 @@ export const deleteItem = (id) => {
   return async (dispatch) => {
     try {
       console.log("delete thunk id", id);
-      const { data } = await axios.delete(`api/cart/${id}`);
+      const { data } = await axios.delete(`api/cart/${id}`, {
+        headers: { authorization: window.localStorage.getItem("token") },
+      });
       dispatch(_deleteItem(data));
-    } catch (error) {}
+    } catch (error) {//stuff}
   };
-};
+}}
 
 //REDUCER
 //Initial State
