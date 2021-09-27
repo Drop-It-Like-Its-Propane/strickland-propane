@@ -37,7 +37,6 @@ export const _checkout = (cart) => {
 export const fetchCart = (id) => {
   return async (dispatch) => {
     try {
-
       const { data } = await axios.get(`/api/cart/${id}`, {
         headers: {"authorization": window.localStorage.getItem('token')}
       }
@@ -95,7 +94,7 @@ export default function cartReducer(state = initialState, action) {
     case SET_CART:
       return action.cart;
     case CREATE_CART:
-      return action.cart;
+      return {...action.cart.newOrder, orderDetails: [action.cart.newOrderDetails] }
     case ADD_ITEM:
       return { ...state, orderDetails: [...state.orderDetails, action.item] };
     default:

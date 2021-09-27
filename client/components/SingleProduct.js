@@ -5,6 +5,10 @@ import { fetchProduct } from "../store/singleProduct";
 import { addItem, fetchCart, createCart } from "../store/cart";
 import {me} from '../store/auth'
 
+//add 'Toast Notification" for adding item to cart
+//Add in STRIPE
+//GuestCart/
+//Order History
 
 class SingleProduct extends React.Component {
   constructor() {
@@ -17,7 +21,7 @@ class SingleProduct extends React.Component {
     this.props.getProduct(this.props.match.params.id, { history });
   }
 
-  componentDidUpdate(){
+  componentDidUpdate(prevProps){
     if (!this.props.cart.id) {
     this.props.getCart(this.props.user)}
   }
