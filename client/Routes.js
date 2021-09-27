@@ -18,7 +18,7 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData();
   }
-
+// consider crossover functionality
   render() {
     const { isLoggedIn } = this.props;
 
