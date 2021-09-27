@@ -45,6 +45,7 @@ class Routes extends Component {
             <Route path="/signup" component={Signup} />
             <Route exact path="/products/:id" component={SingleProduct} />
             <Route exact path="/cart/checkout" component={OrderConfirmation} />
+            <Route exact path="/cart/:id" component={CartPlaceholder} />
           </Switch>
         )}
         {/* {isAdmin ? (
