@@ -6,7 +6,7 @@ const { requireToken, isAdmin, verifyUser } = require("./gatekeeper");
 
 //Get 'Cart' (Open Order)
 
-router.get("/:id", requireToken,verifyUser, async (req, res, next) => {
+router.get("/:id", requireToken, verifyUser, async (req, res, next) => {
   let currentUser = req.params.id;
   try {
     const orders = await Order.findAll({
@@ -26,7 +26,7 @@ router.get("/:id", requireToken,verifyUser, async (req, res, next) => {
 
 //Create User cart if one does not exist,
 //adds first item - Post Route
-router.post("/:id/create", verifyUser, async (req, res, next) => {
+router.post("/:id/create", requireToken, verifyUser, async (req, res, next) => {
   let currentUser = req.params.id;
   try {
     let newOrder = await Order.create({
@@ -46,7 +46,7 @@ router.post("/:id/create", verifyUser, async (req, res, next) => {
 });
 
 // Adjust number of item in cart
-router.post("/:id", verifyUser, async (req, res, next) => {
+router.post("/:id", requireToken,verifyUser, async (req, res, next) => {
   try {
     res.send(
       await OrderDetail.create({
@@ -65,7 +65,7 @@ router.post("/:id", verifyUser, async (req, res, next) => {
 //Incrementing Cart
 /* This route needs to be updated once we develop a form that sends OrderId, ProductId, and Quantity
 in the request body.  */
-router.put("/:orderId/:productId/:quantity", verifyUser, async (req, res, next) => {
+router.put("/:orderId/:productId/:quantity", requireToken, verifyUser, async (req, res, next) => {
   try {
     let updated = await OrderDetail.update(
       { quantity: req.params.quantity },
@@ -82,7 +82,7 @@ router.put("/:orderId/:productId/:quantity", verifyUser, async (req, res, next) 
 });
 
 //Checkout Cart
-router.put("/:id/checkout", verifyUser, async (req, res, next) => {
+router.put("/:id/checkout", requireToken, verifyUser, async (req, res, next) => {
   try {
     res.send( await Order.update({
       orderComplete: true}, {
@@ -94,7 +94,7 @@ router.put("/:id/checkout", verifyUser, async (req, res, next) => {
 });
 
 //Remove Item from Cart
-router.delete("/:id/:orderId/:productId", verifyUser, async (req, res, next) => {
+router.delete("/:id/:orderId/:productId",requireToken, verifyUser, async (req, res, next) => {
   try {
     res.send(
       await OrderDetail.destroy({
