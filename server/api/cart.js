@@ -49,7 +49,6 @@ router.post("/:id/create", requireToken, verifyUser, async (req, res, next) => {
 
 // Adjust number of item in cart
 router.post("/:id", requireToken,verifyUser, async (req, res, next) => {
-=======
 // Adding an item to an existing cart
   try {
     res.send(
@@ -99,7 +98,6 @@ router.put("/:id/checkout", requireToken, verifyUser, async (req, res, next) => 
 
 //Remove Item from Cart
 router.delete("/:id/:orderId/:productId",requireToken, verifyUser, async (req, res, next) => {
-=======
 // localhost8080/api/cart/101/52/12
 // update to be more semantic - more slashes!
   try {
