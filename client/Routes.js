@@ -9,7 +9,7 @@ import { me } from "./store";
 import SingleProduct from "./components/SingleProduct";
 import OrderConfirmation from "./components/CheckoutConfirmation";
 import SingleUser from './components/SingleUser'
-import CartPlaceholder from "./components/CartPlaceholder";
+import CartPlaceholder from "./components/Cart";
 
 /**
  * COMPONENT
