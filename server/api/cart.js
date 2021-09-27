@@ -98,7 +98,6 @@ router.put("/:id/checkout", async (req, res, next) => {
 });
 
 //Remove Item from Cart
-
 router.delete("/:id/:orderId/:productId", async (req, res, next) => {
   try {
     res.send(
