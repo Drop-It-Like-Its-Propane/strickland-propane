@@ -17,16 +17,16 @@ class SingleUser extends React.Component {
 
 //   render() {
 //   }
-}
+// }
 
-const mapState = state => {
-    return {
-    }
-  }
+// const mapState = state => {
+//     return {
+//     }
+//   }
   
-  const mapDispatch = dispatch => {
-    return {
-    }
+//   const mapDispatch = dispatch => {
+//     return {
+//     }
   }
 
  export default connect(mapState, mapDispatch)(SingleUser);
