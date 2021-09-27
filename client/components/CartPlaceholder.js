@@ -9,15 +9,23 @@ class Cart extends React.Component {
     this.props.getCart(this.props.match.params.id);
   }
   render() {
-    let userCart = this.props.cart;
+
+    const userOrderDetails = this.props.cart.orderDetails || []
+    console.log(userOrderDetails)
     return (
       <div className="container">
-        {/* <div> {userCart.id} </div>
-        {this.props.cart.orderDetails.map((item) => {
+        <h2> User Cart </h2>
+         {userOrderDetails.map((item) => {
           return (
-            <div key={item.id} className="singleContainer"/>
+            <div key = {item.id} className = "singleContainer">
+            <div> {item.product.name} </div>
+            <img src = {item.imageUrl} />
+            <div> {item.product.description} </div>
+            <div> Quantity: {item.quantity} </div>
+            <div> Price: {item.totalPrice} </div>
+            </div>
           )
-        }} */}
+        })}
       </div>
     );
   }
