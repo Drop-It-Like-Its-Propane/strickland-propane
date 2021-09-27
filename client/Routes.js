@@ -8,6 +8,8 @@ import Home from "./components/Home";
 import { me } from "./store";
 import SingleProduct from "./components/SingleProduct";
 import OrderConfirmation from "./components/CheckoutConfirmation";
+import SingleUser from './components/SingleUser'
+import CartPlaceholder from "./components/CartPlaceholder";
 
 /**
  * COMPONENT
@@ -25,14 +27,19 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
+            <Route path="/" exact component={AllProducts} />
             <Route exact path="/products" component={AllProducts} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route exact path="/products/:id" component={SingleProduct} />
+            <Route exact path="/products/:id" component={SingleProduct}/>
+            <Route path="/users/:userid" component={SingleUser} />
+            <Route exact path="/cart/:id" component={CartPlaceholder} />
+
           </Switch>
         ) : (
           <Switch>
-            <Route path="/" exact component={Login} />
+            <Route path="/home" component={Home} />
+            <Route path="/" exact component={Home} />
             <Route exact path="/products" component={AllProducts} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
@@ -40,6 +47,27 @@ class Routes extends Component {
             <Route exact path="/cart/checkout" component={OrderConfirmation} />
           </Switch>
         )}
+        {/* {isAdmin ? (
+          <Switch>
+            <Route path="/home" component={Home} />
+            <Route path="/" exact component={AllProducts} />
+            <Route exact path="/products" component={AllProducts} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route exact path="/products/:id" component={SingleProduct}/>
+
+            <Route path="/users" component={Users} />
+          </Switch>
+        ) : (
+          <Switch>
+            <Route path="/home" component={Home} />
+            <Route path="/" exact component={Home} />
+            <Route exact path="/products" component={AllProducts} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route exact path="/products/:id" component={SingleProduct} />
+          </Switch>
+        )} */}
       </div>
     );
   }

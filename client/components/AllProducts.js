@@ -12,7 +12,7 @@ class AllProducts extends React.Component {
       <div className="container">
         {this.props.products.map((product) => {
           return (
-            <div key={product.id}>
+            <div key={product.id} className="singleContainer">
               <Products products={product} />
             </div>
           );
