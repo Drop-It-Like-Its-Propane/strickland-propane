@@ -4,6 +4,8 @@ const {
 } = require("../db");
 const { requireToken, isAdmin, verifyUser } = require("./gatekeeper");
 
+// thoughts for the future - "loaded models, mini routes"
+
 //Get 'Cart' (Open Order)
 router.get("/:id", verifyUser, async (req, res, next) => {
   let currentUser = req.params.id;
@@ -43,7 +45,7 @@ router.post("/:id/create", verifyUser, async (req, res, next) => {
   }
 });
 
-// Adjust number of item in cart
+// Adding an item to an existing cart
 router.post("/:id", verifyUser, async (req, res, next) => {
   try {
     res.send(
@@ -98,6 +100,8 @@ router.put("/:id/checkout", verifyUser, async (req, res, next) => {
 });
 
 //Remove Item from Cart
+// localhost8080/api/cart/101/52/12
+// update to be more semantic - more slashes!
 router.delete("/:id/:orderId/:productId", verifyUser, async (req, res, next) => {
   try {
     res.send(
