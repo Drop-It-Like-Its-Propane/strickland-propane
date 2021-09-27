@@ -8,6 +8,7 @@ import Home from "./components/Home";
 import { me } from "./store";
 import SingleProduct from "./components/SingleProduct";
 import OrderConfirmation from "./components/CheckoutConfirmation";
+import CartPlaceholder from "./components/CartPlaceholder";
 
 /**
  * COMPONENT
@@ -29,6 +30,7 @@ class Routes extends Component {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route exact path="/products/:id" component={SingleProduct} />
+            <Route exact path="/cart/:id" component={CartPlaceholder} />
           </Switch>
         ) : (
           <Switch>
