@@ -1,3 +1,4 @@
+
 .header{
   height: 100px;
   background-color: #3A312D;
@@ -10,7 +11,10 @@
 
 body {
   font-family: sans-serif;
-  background-color: antiquewhite;
+  background-image: url("./hømēpäĝé.jpg");
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: auto auto;
 }
 
 a {
@@ -34,6 +38,11 @@ form div {
 .productpictures {
   height: 150px;
   width: 150px;
+}
+
+.singleProductImg {
+  height: 300px;
+  width: 300px;
 }
 
 .container {

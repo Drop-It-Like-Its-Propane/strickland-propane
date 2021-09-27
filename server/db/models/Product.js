@@ -18,7 +18,7 @@ const Product = db.define("products", {
   imageUrl: {
     type: Sequelize.TEXT,
     defaultValue:
-      "https://www.russorizio.com/wp-content/uploads/2016/07/ef3-placeholder-image.jpg",
+      "../../../public/proPAIN.jpg",
   },
   quantity: {
     type: Sequelize.INTEGER,

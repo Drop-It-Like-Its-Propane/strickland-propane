@@ -56,7 +56,7 @@ class SingleProduct extends React.Component {
     return (
       <div>
         <h2> {product.name} (0 items in cart)</h2>
-        <img src={product.imageUrl} />
+        <img className="singleProductImg" src="../proPAIN.jpg" />
         <div>{this.insertDecimal(product.price)}</div>
         <p>{product.description}</p>
         <button onClick={this.handleClick, this.notify}>Add to Cart</button>
