@@ -81,16 +81,35 @@ router.put("/:orderId/:productId/:quantity", async (req, res, next) => {
 //Checkout Cart
 router.put("/:id/checkout", async (req, res, next) => {
   try {
-    res.send( await Order.update({
-      orderComplete: true}, {
-      where: { userId: req.params.id },
-    }))
+    res.send(
+      await Order.update(
+        {
+          orderComplete: true,
+        },
+        {
+          where: { userId: req.params.id },
+        }
+      )
+    );
   } catch (error) {
     next(error);
   }
 });
 
 //Remove Item from Cart
-
+router.delete("/:id/:orderId/:productId", async (req, res, next) => {
+  try {
+    res.send(
+      await OrderDetail.destroy({
+        where: {
+          orderId: req.params.orderId,
+          productId: req.params.productId,
+        },
+      })
+    );
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
