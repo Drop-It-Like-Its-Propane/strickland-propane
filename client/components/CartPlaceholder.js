@@ -2,26 +2,26 @@
 
 import React from "react";
 import { connect } from "react-redux";
-import {fetchCart} from '../store/cart'
+import { fetchCart } from "../store/cart";
 
 class Cart extends React.Component {
   componentDidMount() {
     this.props.getCart(this.props.match.params.id);
   }
   render() {
-    let userCart = this.props.cart
+    let userCart = this.props.cart;
     return (
       <div className="container">
-        <div> {userCart.id} </div>
+        {/* <div> {userCart.id} </div>
         {this.props.cart.orderDetails.map((item) => {
           return (
-            <div. key={item.id} className="singleContainer"/>
+            <div key={item.id} className="singleContainer"/>
           )
-        }}
+        }} */}
       </div>
-        )}
-
- }
+    );
+  }
+}
 
 const mapState = (state) => {
   return {

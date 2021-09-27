@@ -5,6 +5,7 @@ const SET_CART = "SET_CART";
 const ADD_ITEM = "ADD_ITEM";
 const CREATE_CART = "CREATE_CART";
 const CHECKOUT = "CHECKOUT";
+const DELETE_ITEM = "DELETE_ITEM";
 
 //ACTION CREATORS
 export const _setCart = (cart) => {
@@ -32,16 +33,21 @@ export const _checkout = (cart) => {
   };
 };
 
+export const _deleteItem = (cart) => {
+  return {
+    type: DELETE_ITEM,
+    cart,
+  };
+};
+
 //THUNKS
 //get all items in current cart
 export const fetchCart = (id) => {
   return async (dispatch) => {
     try {
-
       const { data } = await axios.get(`/api/cart/${id}`, {
-        headers: {"authorization": window.localStorage.getItem('token')}
-      }
-      );
+        headers: { authorization: window.localStorage.getItem("token") },
+      });
       dispatch(_setCart(data[0]));
     } catch (error) {
       //stuff happens
@@ -85,6 +91,17 @@ export const checkout = (id) => {
   };
 };
 
+//delete cart
+export const deleteItem = (id) => {
+  return async (dispatch) => {
+    try {
+      console.log("delete thunk id", id);
+      const { data } = await axios.delete(`api/cart/${id}`);
+      dispatch(_deleteItem(data));
+    } catch (error) {}
+  };
+};
+
 //REDUCER
 //Initial State
 const initialState = [];
@@ -98,6 +115,8 @@ export default function cartReducer(state = initialState, action) {
       return action.cart;
     case ADD_ITEM:
       return { ...state, orderDetails: [...state.orderDetails, action.item] };
+    case DELETE_ITEM:
+      return state.filter((item) => item.id !== action.item.id);
     default:
       return state;
   }
