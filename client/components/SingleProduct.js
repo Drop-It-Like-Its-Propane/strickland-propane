@@ -5,6 +5,9 @@ import { fetchProduct } from "../store/singleProduct";
 import { addItem, fetchCart, createCart } from "../store/cart";
 import {me} from '../store/auth';
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 //add 'Toast Notification" for adding item to cart
 //Add in STRIPE
@@ -33,6 +36,7 @@ class SingleProduct extends React.Component {
 
   handleClick(event) {
     event.preventDefault();
+    console.log(this.props.cart)
     if(!this.props.cart.id) {
       this.props.createCart(this.props.user, this.props.product)
     } else {
@@ -43,16 +47,20 @@ class SingleProduct extends React.Component {
     this.props.addItem(this.props.user, mergedDetails)}
   }
 
+  notify(){
+    return toast("Item added to cart!")}
+
 
   render() {
     const { product } = this.props;
     return (
       <div>
-        <h2> {product.name} </h2>
+        <h2> {product.name} (0 items in cart)</h2>
         <img src={product.imageUrl} />
         <div>{this.insertDecimal(product.price)}</div>
         <p>{product.description}</p>
-        <button onClick={this.handleClick}>Add to Cart</button>
+        <button onClick={this.handleClick, this.notify}>Add to Cart</button>
+        <ToastContainer />
         <Link to="/products"> All Products </Link>
       </div>
     );

@@ -22,7 +22,7 @@ const isAdmin = (req, res, next) => {
 
 //verify user access
 const verifyUser = (req, res, next) => {
-  if (parseInt(req.params.id) !== req.user.id || !req.user.isAdmin) {
+  if (parseInt(req.params.id) !== req.user.id) {
     return res.status(403).send('User does not have permission to view this page')
   } else {
     next()
