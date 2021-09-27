@@ -5,7 +5,8 @@ import React from 'react'
  */
 export const Header = () => {
   return (
-    <div class="header">
+    <div className="header">
+      <img id="headerStar" src="./ThisStarIsOnFireeeee.jpg" />
       <h1 id="stricklandPropane">Strickland Propane</h1>
     </div>
   )
