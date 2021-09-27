@@ -27,6 +27,9 @@ router.post('/signup', async (req, res, next) => {
 
 router.get('/me', async (req, res, next) => {
   try {
+    let login = await User.findByToken(req.headers.authorization)
+    const { id, username, email, firstName, lastName, isAdmin, imageUrl} = login.dataValues
+    console.log(id, username, email)
     res.send(await User.findByToken(req.headers.authorization))
   } catch (ex) {
     next(ex)
