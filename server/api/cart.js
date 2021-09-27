@@ -5,7 +5,8 @@ const {
 const { requireToken, isAdmin, verifyUser } = require("./gatekeeper");
 
 //Get 'Cart' (Open Order)
-router.get("/:id", verifyUser, async (req, res, next) => {
+
+router.get("/:id", requireToken,verifyUser, async (req, res, next) => {
   let currentUser = req.params.id;
   try {
     const orders = await Order.findAll({
@@ -31,13 +32,14 @@ router.post("/:id/create", verifyUser, async (req, res, next) => {
     let newOrder = await Order.create({
       userId: currentUser,
     });
-    res.send(
-      await OrderDetail.create({
+
+      let newOrderDetails = await OrderDetail.create({
         orderId: newOrder.id,
         productId: req.body.id,
         totalPrice: req.body.price,
       })
-    );
+      res.send({newOrder, newOrderDetails})
+    ;
   } catch (error) {
     next(error);
   }
@@ -82,16 +84,10 @@ router.put("/:orderId/:productId/:quantity", verifyUser, async (req, res, next) 
 //Checkout Cart
 router.put("/:id/checkout", verifyUser, async (req, res, next) => {
   try {
-    res.send(
-      await Order.update(
-        {
-          orderComplete: true,
-        },
-        {
-          where: { userId: req.params.id },
-        }
-      )
-    );
+    res.send( await Order.update({
+      orderComplete: true}, {
+      where: { userId: req.params.id },
+    }))
   } catch (error) {
     next(error);
   }
@@ -112,5 +108,6 @@ router.delete("/:id/:orderId/:productId", verifyUser, async (req, res, next) => 
     next(error);
   }
 });
+
 
 module.exports = router;
