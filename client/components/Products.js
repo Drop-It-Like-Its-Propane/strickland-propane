@@ -17,7 +17,7 @@ export default class Products extends React.Component {
       <Link to={`/products/${products.id}`}>
         <div>
           <h3 className="title">{products.name}</h3>
-          <img className="productpictures" src={products.imageUrl} />
+          <img className="productpictures" src="proPAIN.jpg" />
           <p className="description">{products.description}</p>
           <p>{this.insertDecimal(products.price)}</p>
         </div>
