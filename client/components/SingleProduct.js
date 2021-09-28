@@ -3,8 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchProduct } from "../store/singleProduct";
 import { addItem, fetchCart, createCart } from "../store/cart";
-import {me} from '../store/auth';
-import { Link } from "react-router-dom";
+import {me} from '../store/auth'
 
 //add 'Toast Notification" for adding item to cart
 //Add in STRIPE
@@ -23,7 +22,7 @@ class SingleProduct extends React.Component {
   }
 
   componentDidUpdate(prevProps){
-    if (!this.props.cart.id) {
+    if (!this.props.cart.orderId) {
     this.props.getCart(this.props.user)}
   }
 
@@ -43,7 +42,6 @@ class SingleProduct extends React.Component {
     this.props.addItem(this.props.user, mergedDetails)}
   }
 
-
   render() {
     const { product } = this.props;
     return (
@@ -53,7 +51,6 @@ class SingleProduct extends React.Component {
         <div>{this.insertDecimal(product.price)}</div>
         <p>{product.description}</p>
         <button onClick={this.handleClick}>Add to Cart</button>
-        <Link to="/products"> All Products </Link>
       </div>
     );
   }

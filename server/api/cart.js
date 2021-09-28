@@ -11,11 +11,14 @@ router.get("/:id", requireToken, verifyUser, async (req, res, next) => {
   let currentUser = req.params.id;
   try {
     const orders = await Order.findAll({
+      attributes: ['id', 'orderComplete', 'userId'],
       where: { userId: currentUser, orderComplete: false },
       include: {
         model: OrderDetail,
+        attributes: ['id', 'orderId', 'productId','quantity','totalPrice'],
         include: {
           model: Product,
+          attributes: ['description', 'id', 'imageUrl','name','price','quantity']
         },
       },
     });
@@ -79,17 +82,18 @@ router.post("/:id", requireToken,verifyUser, async (req, res, next) => {
 //Incrementing Cart
 /* This route needs to be updated once we develop a form that sends OrderId, ProductId, and Quantity
 in the request body.  */
-router.put("/:orderId/:productId/:quantity", requireToken, verifyUser, async (req, res, next) => {
+router.put("/:id/edit", requireToken, verifyUser, async (req, res, next) => {
+  console.log(req.body)
   try {
-    let updated = await OrderDetail.update(
-      { quantity: req.params.quantity },
+    let updatedField = await OrderDetail.update(
+      { quantity: req.body.quantity },
       {
-        where: { orderId: req.params.orderId, productId: req.params.productId },
+        where: { orderId: req.body.orderId, productId: req.body.productId },
         returning: true,
       }
-    );
-    console.log(updated[1][0].dataValues);
-    res.send(updated[1][0].dataValues);
+    )
+    let product = await Product.findByPk(req.body.productId)
+    res.send({updatedField, product})
   } catch (error) {
     next(error);
   }

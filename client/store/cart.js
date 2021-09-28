@@ -96,7 +96,7 @@ export const addItem = (id, orderDetails) => {
 export const checkout = (id, history) => {
   return async (dispatch) => {
     try {
-      const response = await axios.put(`/api/cart/${id}/checkout`,null, {
+      const response = await axios.put(`/api/cart/${id}/checkout`, null, {
         headers: { authorization: window.localStorage.getItem("token") },
       })
       dispatch(_checkout(response.data));
@@ -121,14 +121,16 @@ export const deleteItem = (id) => {
 }}
 
 //edit item quantity in cart
-export const editQuantity = (orderData) => {
-  const {id, productId, quantity} = orderData
+export const editQuantity = (id ,orderData) => {
+  console.log(orderData)
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(`api/cart/${id}/${productId}/${quantity}`, {
+      console.log('reached this point')
+      const {data } = await axios.put(`/api/cart/${id}/edit`, orderData, {
         headers: { authorization: window.localStorage.getItem("token") },
-      });
-      dispatch(_editCart(data));
+      })
+      ;
+      dispatch(_editCart(data[1]));
     } catch (error) {//stuff}
   }
 }}
@@ -148,6 +150,9 @@ export default function cartReducer(state = initialState, action) {
       return { ...state, orderDetails: [...state.orderDetails, action.item] };
     case DELETE_ITEM:
       return state.filter((item) => item.id !== action.item.id);
+    case EDIT_CART:
+      return {...state, orderDetails: state.orderDetails.map((item)=>
+        item.id === action.cart.id ? action.cart : item)}
     case CHECKOUT:
       return action.cart
     default:
