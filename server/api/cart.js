@@ -8,33 +8,36 @@ const { requireToken, verifyUser } = require("./gatekeeper");
 
 //Get 'Cart' (Open Order)
 
-router.get("/:id", requireToken, verifyUser, async (req, res, next) => {
-  let currentUser = req.params.id;
-  try {
-    const orders = await Order.findAll({
-      attributes: ["id", "orderComplete", "userId"],
-      where: { userId: currentUser, orderComplete: false },
-      include: {
-        model: OrderDetail,
-        attributes: ["id", "orderId", "productId", "quantity", "totalPrice"],
+router.get(
+  "/:id",
+  /*requireToken, verifyUser,*/ async (req, res, next) => {
+    let currentUser = req.params.id;
+    try {
+      const orders = await Order.findAll({
+        attributes: ["id", "orderComplete", "userId"],
+        where: { userId: currentUser, orderComplete: false },
         include: {
-          model: Product,
-          attributes: [
-            "description",
-            "id",
-            "imageUrl",
-            "name",
-            "price",
-            "quantity",
-          ],
+          model: OrderDetail,
+          attributes: ["id", "orderId", "productId", "quantity", "totalPrice"],
+          include: {
+            model: Product,
+            attributes: [
+              "description",
+              "id",
+              "imageUrl",
+              "name",
+              "price",
+              "quantity",
+            ],
+          },
         },
-      },
-    });
-    res.json(orders);
-  } catch (error) {
-    next(error);
+      });
+      res.json(orders);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 //Create User cart if one does not exist,
 //adds first item - Post Route
@@ -119,22 +122,19 @@ router.put(
 
 //Remove Item from Cart
 router.delete(
-  "/:id/:orderId/:productId",
-  requireToken,
-  verifyUser,
+  "/:id/delete",
+  // requireToken,
+  // verifyUser,
   async (req, res, next) => {
-    // localhost8080/api/cart/101/52/12
-    // update to be more semantic - more slashes!
-
     try {
-      res.send(
-        await OrderDetail.destroy({
-          where: {
-            orderId: req.params.orderId,
-            productId: req.params.productId,
-          },
-        })
-      );
+      const od = await OrderDetail.findOne({
+        where: {
+          orderId: req.body.orderId,
+          productId: req.body.productId,
+        },
+      });
+      await od.destroy();
+      res.send(od);
     } catch (error) {
       next(error);
     }
