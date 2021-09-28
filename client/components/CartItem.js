@@ -7,10 +7,16 @@ export class CartItem extends React.Component {
     super(props);
     this.insertDecimal = this.insertDecimal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this)
   }
 
   insertDecimal(num) {
     return (num / 100).toFixed(2);
+  }
+
+  handleClick(event){
+    console.log('hello', this.props)
+  event.preventDefault()
   }
 
   handleSubmit(event) {
@@ -28,6 +34,7 @@ export class CartItem extends React.Component {
     const {product} = this.props.item|| []
     return (
       <div>
+        <button onClick={this.handleClick}> x </button>
         <div>{product.name}</div>
         <img src={item.imageUrl} />
         <div> {product.description} </div>

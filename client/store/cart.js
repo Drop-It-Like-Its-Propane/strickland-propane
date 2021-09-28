@@ -130,7 +130,7 @@ export const editQuantity = (id ,orderData) => {
         headers: { authorization: window.localStorage.getItem("token") },
       })
       ;
-      dispatch(_editCart(data[1]));
+      dispatch(_editCart(data));
     } catch (error) {//stuff}
   }
 }}
@@ -152,7 +152,7 @@ export default function cartReducer(state = initialState, action) {
       return state.filter((item) => item.id !== action.item.id);
     case EDIT_CART:
       return {...state, orderDetails: state.orderDetails.map((item)=>
-        item.id === action.cart.id ? action.cart : item)}
+        item.productId === action.cart.orderDetails.productId ? action.cart.orderDetails : item)}
     case CHECKOUT:
       return action.cart
     default:

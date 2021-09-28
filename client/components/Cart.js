@@ -11,7 +11,6 @@ class Cart extends React.Component {
   this.handleClick = this.handleClick.bind(this)
   }
   componentDidMount() {
-    console.log(this.props)
     this.props.getCart(this.props.match.params.id);
   }
   handleClick(event) {
