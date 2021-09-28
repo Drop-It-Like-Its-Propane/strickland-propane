@@ -3,7 +3,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchCart, checkout } from "../store/cart";
-import CartItem from './CartItem'
 
 class Cart extends React.Component {
   constructor() {
@@ -17,29 +16,26 @@ class Cart extends React.Component {
     event.preventDefault();
     this.props.checkout(this.props.match.params.id)}
 
-
-  render() {
     console.log(this.props)
-    const userOrderDetails = this.props.cart.orderDetails || []
     return (
       <div className="container">
         <h2> User Cart </h2>
         {userOrderDetails.map((item) =>{
           return (
-            <div key = {item.id}
-            className = 'singleContainer'>
-              <CartItem userId = {this.props.cart.userId} item = {item}/>
+            <div key = {item.id} className = "singleContainer">
+              <div> {item.product.name} </div>
+              <img src = {item.imageUrl} />
+              <div> {item.product.description} </div>
+              <div> Quantity: {item.quantity} </div>
+              <div> Price: {this.insertDecimal(item.totalPrice)} </div>
             </div>
           )
         })}
-
-      <div>Total Price: *Pending </div>
-      <button onClick={this.handleClick}>Checkout</button>
+        <button onClick={this.handleClick}>Checkout</button>
       </div>
-      )
- }
+    )
+  }
 }
-
 
 const mapState = (state) => {
   return {
@@ -50,7 +46,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch, {history}) => {
   return {
     getCart: (id) => dispatch(fetchCart(id)),
-    checkout: (id) => dispatch(checkout(id, history)),
+    checkout: (id) => dispatch(checkout(id, history))
   };
 };
 
