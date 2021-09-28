@@ -8,6 +8,7 @@ const { requireToken, verifyUser } = require("./gatekeeper");
 
 //Get 'Cart' (Open Order)
 router.get("/:id", requireToken, verifyUser, async (req, res, next) => {
+
   let currentUser = req.params.id;
   try {
     const orders = await Order.findAll({
@@ -62,8 +63,9 @@ router.put("/:id/checkout", requireToken, verifyUser, async (req, res, next) => 
 });
 
 // Adjust number of item in cart
-router.post("/:id", requireToken,verifyUser, async (req, res, next) => {
 // Adding an item to an existing cart
+router.post("/:id", requireToken, verifyUser, async (req, res, next) => {
+
   try {
     res.send(
       await OrderDetail.create({
@@ -99,10 +101,24 @@ router.put("/:id/edit", requireToken, verifyUser, async (req, res, next) => {
   }
 });
 
+//Checkout Cart
+router.put("/:id/checkout", requireToken, verifyUser, async (req, res, next) => {
+  try {
+    res.send( await Order.update({
+      orderComplete: true}, {
+      where: { userId: req.params.id },
+    }))
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 //Remove Item from Cart
 router.delete("/:id/:orderId/:productId",requireToken, verifyUser, async (req, res, next) => {
 // localhost8080/api/cart/101/52/12
 // update to be more semantic - more slashes!
+
   try {
     res.send(
       await OrderDetail.destroy({
