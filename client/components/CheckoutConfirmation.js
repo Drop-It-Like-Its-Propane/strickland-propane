@@ -2,10 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
-// class OrderConfirmation extends React.Component({
-//   componentDidMount() {
-//     this.props.getCart();
-// })
 
 const OrderConfirmation = () => {
   return (

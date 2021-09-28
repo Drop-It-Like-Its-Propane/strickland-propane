@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 //add 'Toast Notification" for adding item to cart
 //Add in STRIPE
 //GuestCart/
@@ -26,7 +25,7 @@ class SingleProduct extends React.Component {
   }
 
   componentDidUpdate(prevProps){
-    if (!this.props.cart.id) {
+    if (!this.props.cart.orderId) {
     this.props.getCart(this.props.user)}
   }
 
@@ -49,7 +48,6 @@ class SingleProduct extends React.Component {
 
   notify(){
     return toast("Item added to cart!")}
-
 
   render() {
     const { product } = this.props;
