@@ -7,27 +7,37 @@ const { requireToken, verifyUser } = require("./gatekeeper");
 // thoughts for the future - "loaded models, mini routes"
 
 //Get 'Cart' (Open Order)
-router.get("/:id", requireToken, verifyUser, async (req, res, next) => {
 
-  let currentUser = req.params.id;
-  try {
-    const orders = await Order.findAll({
-      attributes: ['id', 'orderComplete', 'userId'],
-      where: { userId: currentUser, orderComplete: false },
-      include: {
-        model: OrderDetail,
-        attributes: ['id', 'orderId', 'productId','quantity','totalPrice'],
+router.get(
+  "/:id",
+  /*requireToken, verifyUser,*/ async (req, res, next) => {
+    let currentUser = req.params.id;
+    try {
+      const orders = await Order.findAll({
+        attributes: ["id", "orderComplete", "userId"],
+        where: { userId: currentUser, orderComplete: false },
         include: {
-          model: Product,
-          attributes: ['description', 'id', 'imageUrl','name','price','quantity']
+          model: OrderDetail,
+          attributes: ["id", "orderId", "productId", "quantity", "totalPrice"],
+          include: {
+            model: Product,
+            attributes: [
+              "description",
+              "id",
+              "imageUrl",
+              "name",
+              "price",
+              "quantity",
+            ],
+          },
         },
-      },
-    });
-    res.json(orders);
-  } catch (error) {
-    next(error);
+      });
+      res.json(orders);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 //Create User cart if one does not exist,
 //adds first item - Post Route
@@ -38,25 +48,12 @@ router.post("/:id/create", requireToken, verifyUser, async (req, res, next) => {
       userId: currentUser,
     });
 
-      let newOrderDetails = await OrderDetail.create({
-        orderId: newOrder.id,
-        productId: req.body.id,
-        totalPrice: req.body.price,
-      })
-      res.send({newOrder, newOrderDetails})
-    ;
-  } catch (error) {
-    next(error);
-  }
-});
-
-//Checkout Cart
-router.put("/:id/checkout", requireToken, verifyUser, async (req, res, next) => {
-  try {
-    res.send( await Order.update({
-      orderComplete: true}, {
-      where: { userId: req.params.id },
-    }))
+    let newOrderDetails = await OrderDetail.create({
+      orderId: newOrder.id,
+      productId: req.body.id,
+      totalPrice: req.body.price,
+    });
+    res.send({ newOrder, newOrderDetails });
   } catch (error) {
     next(error);
   }
@@ -65,7 +62,6 @@ router.put("/:id/checkout", requireToken, verifyUser, async (req, res, next) => 
 // Adjust number of item in cart
 // Adding an item to an existing cart
 router.post("/:id", requireToken, verifyUser, async (req, res, next) => {
-
   try {
     res.send(
       await OrderDetail.create({
@@ -105,35 +101,56 @@ router.put("/:id/edit", requireToken, verifyUser, async (req, res, next) => {
 });
 
 //Checkout Cart
-router.put("/:id/checkout", requireToken, verifyUser, async (req, res, next) => {
-  try {
-    res.send( await Order.update({
-      orderComplete: true}, {
-      where: { userId: req.params.id },
-    }))
-  } catch (error) {
-    next(error);
+router.put(
+  "/:id/checkout",
+  requireToken,
+  verifyUser,
+  async (req, res, next) => {
+    try {
+      res.send(
+        await Order.update(
+          {
+            orderComplete: true,
+          },
+          {
+            where: { userId: req.params.id },
+          }
+        )
+      );
+    } catch (error) {
+      next(error);
+    }
   }
-});
-
+);
 
 //Remove Item from Cart
+<<<<<<< HEAD
 router.delete("/:id/:orderId/:productId",requireToken, verifyUser, async (req, res, next) => {
 // localhost8080/api/cart/101/52/12
 // update to be more semantic - more slashes!
   try {
     res.send(
       await OrderDetail.destroy({
+=======
+router.delete(
+  "/:id/delete",
+  // requireToken,
+  // verifyUser,
+  async (req, res, next) => {
+    try {
+      const od = await OrderDetail.findOne({
+>>>>>>> 0bd782b2cd86d91cce3a2e806d251a8c3f1ea5d1
         where: {
-          orderId: req.params.orderId,
-          productId: req.params.productId,
+          orderId: req.body.orderId,
+          productId: req.body.productId,
         },
-      })
-    );
-  } catch (error) {
-    next(error);
+      });
+      await od.destroy();
+      res.send(od);
+    } catch (error) {
+      next(error);
+    }
   }
-});
-
+);
 
 module.exports = router;

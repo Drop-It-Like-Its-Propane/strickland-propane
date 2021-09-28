@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { editQuantity } from "../store/cart";
+import { editQuantity, deleteItem } from "../store/cart";
 
 export class CartItem extends React.Component {
   constructor(props) {
@@ -14,6 +14,7 @@ export class CartItem extends React.Component {
     return (num / 100).toFixed(2);
   }
 
+  //placeholder for Delete click
   handleClick(event){
     console.log('hello', this.props)
   event.preventDefault()
@@ -68,7 +69,9 @@ export class CartItem extends React.Component {
 
 const mapDispatch = (dispatch) => {
   return {
-    editQuantity: (id, orderDetails) => dispatch(editQuantity(id, orderDetails)),
+    editQuantity: (id, orderDetails) =>
+      dispatch(editQuantity(id, orderDetails)),
+    deleteButton: (id, theOrder) => dispatch(deleteItem(id, theOrder)),
   };
 };
 
