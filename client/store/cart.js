@@ -33,10 +33,10 @@ export const _checkout = (cart) => {
   };
 };
 
-export const _deleteItem = (cart) => {
+export const _deleteItem = (item) => {
   return {
     type: DELETE_ITEM,
-    cart,
+    item,
   };
 };
 
@@ -98,14 +98,15 @@ export const checkout = (id) => {
 };
 
 //delete cart
-export const deleteItem = (id) => {
+export const deleteItem = (item) => {
   return async (dispatch) => {
     try {
-      console.log("delete thunk id", id);
-      const { data } = await axios.delete(`api/cart/${id}`, {
+      console.log("delete thunk id", item);
+      const res = await axios.delete(`api/cart/104/101/13`, {
         headers: { authorization: window.localStorage.getItem("token") },
       });
-      dispatch(_deleteItem(data));
+      console.log(res);
+      dispatch(_deleteItem(item));
     } catch (error) {}
   };
 };
@@ -127,8 +128,9 @@ export default function cartReducer(state = initialState, action) {
     case ADD_ITEM:
       return { ...state, orderDetails: [...state.orderDetails, action.item] };
     case DELETE_ITEM:
-      console.log("delete", state);
-      return state.filter((item) => item.id !== action.item.id);
+      console.log("state", state);
+      console.log("action", action);
+      return state.orderDetails;
     default:
       return state;
   }

@@ -117,20 +117,21 @@ router.put(
 //Remove Item from Cart
 router.delete(
   "/:id/:orderId/:productId",
-  requireToken,
-  verifyUser,
+  // requireToken,
+  // verifyUser,
   async (req, res, next) => {
     // localhost8080/api/cart/101/52/12
     // update to be more semantic - more slashes!
     try {
-      res.send(
-        await OrderDetail.destroy({
-          where: {
-            orderId: req.params.orderId,
-            productId: req.params.productId,
-          },
-        })
-      );
+      console.log("oid", req.params.orderId);
+      console.log("pid", req.params.productId);
+      const product = await OrderDetail.findOne({
+        where: {
+          orderId: req.params.orderId,
+          productId: req.params.productId,
+        },
+      });
+      res.send(product.destroy());
     } catch (error) {
       next(error);
     }

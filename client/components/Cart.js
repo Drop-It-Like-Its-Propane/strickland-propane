@@ -32,7 +32,9 @@ class Cart extends React.Component {
               <button
                 className="delete"
                 type="button"
-                onClick={() => this.props.deleteItem(item.id)}
+                onClick={() =>
+                  /*console.log(item)*/ this.props.deleteItem(item)
+                }
               >
                 Delete
               </button>
@@ -59,7 +61,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getCart: (id) => dispatch(fetchCart(id)),
-    deleteItem: (id) => dispatch(deleteItem(id)),
+    deleteItem: (item) => dispatch(deleteItem(item)),
   };
 };
 export default connect(mapState, mapDispatch)(Cart);
