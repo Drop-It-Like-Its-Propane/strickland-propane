@@ -2,7 +2,7 @@
 
 import React from "react";
 import { connect } from "react-redux";
-import { fetchCart, checkout } from "../store/cart";
+import { fetchCart, checkout, editQuantity } from "../store/cart";
 
 class Cart extends React.Component {
   constructor() {
@@ -20,6 +20,10 @@ class Cart extends React.Component {
     event.preventDefault();
     this.props.checkout(this.props.match.params.id)}
 
+  handleSubmit(event){
+    event.preventDefault();
+  }
+
 
 
   render() {
@@ -33,16 +37,23 @@ class Cart extends React.Component {
               <div> {item.product.name} </div>
               <img src = {item.imageUrl} />
               <div> {item.product.description} </div>
-              <div> Quantity: {item.quantity} </div>
+              <label for="quantity">Quantity:</label>
+              <select name = "quantity">
+              <option value={item.quantity} defaultValue hidden> {item.quantity} </option>
+              {[...Array(10).keys()].map((number)=>(
+                <option key={number} value = {number}> {number} </option>
+              ))}
+              </select>
               <div> Price: {this.insertDecimal(item.totalPrice)} </div>
+              {/* <div> Quantity: {item.quantity} </div> */}
             </div>
-          )
-        })}
+         )})}
         <button onClick={this.handleClick}>Checkout</button>
       </div>
     )
-  }
-}
+      }
+    }
+
 
 const mapState = (state) => {
   return {
@@ -53,7 +64,8 @@ const mapState = (state) => {
 const mapDispatch = (dispatch, {history}) => {
   return {
     getCart: (id) => dispatch(fetchCart(id)),
-    checkout: (id) => dispatch(checkout(id, history))
+    checkout: (id) => dispatch(checkout(id, history)),
+    editQuantity: (orderDetails) => dispatch(editQuantity(orderDetails))
   };
 };
 export default connect(mapState, mapDispatch)(Cart);
