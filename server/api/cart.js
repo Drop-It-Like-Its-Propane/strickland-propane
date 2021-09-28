@@ -81,7 +81,6 @@ router.post("/:id", requireToken, verifyUser, async (req, res, next) => {
 /* This route needs to be updated once we develop a form that sends OrderId, ProductId, and Quantity
 in the request body.  */
 router.put("/:id/edit", requireToken, verifyUser, async (req, res, next) => {
-  console.log(req.body);
   try {
     let updatedField = await OrderDetail.update(
       { quantity: req.body.quantity },
@@ -89,9 +88,13 @@ router.put("/:id/edit", requireToken, verifyUser, async (req, res, next) => {
         where: { orderId: req.body.orderId, productId: req.body.productId },
         returning: true,
       }
-    );
-    let product = await Product.findByPk(req.body.productId);
-    res.send({ updatedField, product });
+    )
+    //product: {...product.dataValues}
+    let product = await Product.findByPk(req.body.productId)
+    let Object1 = updatedField[0]
+    let object2 = {product}
+    //build response object before sending
+    res.send({Object1, object2})
   } catch (error) {
     next(error);
   }
@@ -121,6 +124,17 @@ router.put(
 );
 
 //Remove Item from Cart
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+router.delete("/:id/:orderId/:productId",requireToken, verifyUser, async (req, res, next) => {
+// localhost8080/api/cart/101/52/12
+// update to be more semantic - more slashes!
+  try {
+    res.send(
+      await OrderDetail.destroy({
+=======
+>>>>>>> bccb85a1148b5b70391a11e4b974ad6d0f3ed28a
 router.delete(
   "/:id/delete",
   // requireToken,
@@ -128,6 +142,10 @@ router.delete(
   async (req, res, next) => {
     try {
       const od = await OrderDetail.findOne({
+<<<<<<< HEAD
+=======
+>>>>>>> 0bd782b2cd86d91cce3a2e806d251a8c3f1ea5d1
+>>>>>>> bccb85a1148b5b70391a11e4b974ad6d0f3ed28a
         where: {
           orderId: req.body.orderId,
           productId: req.body.productId,

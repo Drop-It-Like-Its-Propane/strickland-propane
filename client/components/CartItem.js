@@ -7,20 +7,17 @@ export class CartItem extends React.Component {
     super(props);
     this.insertDecimal = this.insertDecimal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   insertDecimal(num) {
     return (num / 100).toFixed(2);
   }
 
+  //placeholder for Delete click
   handleClick(event) {
+    console.log("hello", this.props);
     event.preventDefault();
-    const editValues = {
-      orderId: this.props.item.orderId,
-      productId: event.target.productId.value,
-      quantity: event.target.quantity.value,
-    };
-    this.props.editQuantity(this.props.userId, editValues);
   }
 
   handleSubmit(event) {
@@ -34,13 +31,15 @@ export class CartItem extends React.Component {
   }
 
   render() {
-    const { item } = this.props;
+    const { item } = this.props || [];
+    const { product } = this.props.item || [];
     return (
       <div>
-        <div>{item.product.name}</div>
+        <button onClick={this.handleClick}> x </button>
+        <div>{product.name}</div>
         <img src={item.imageUrl} />
-        <div> {item.product.description} </div>
-        <div>${this.insertDecimal(item.product.price)}</div>
+        <div> {product.description} </div>
+        <div>${this.insertDecimal(product.price)}</div>
         <form htmlFor="quantity" onSubmit={this.handleSubmit}>
           <label htmlFor="quantity">Quantity:</label>
           <select name="quantity" id="quantity">

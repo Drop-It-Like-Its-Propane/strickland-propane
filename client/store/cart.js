@@ -123,7 +123,7 @@ export const editQuantity = (id, orderData) => {
       const { data } = await axios.put(`/api/cart/${id}/edit`, orderData, {
         headers: { authorization: window.localStorage.getItem("token") },
       });
-      dispatch(_editCart(data[1]));
+      dispatch(_editCart(data));
     } catch (error) {
       //stuff}
     }
@@ -147,7 +147,6 @@ export default function cartReducer(state = initialState, action) {
     case ADD_ITEM:
       return { ...state, orderDetails: [...state.orderDetails, action.item] };
     case DELETE_ITEM:
-      console.log("action", state);
       const newCart = state.orderDetails.filter(
         (item) => item.productId !== action.item.productId
       );
@@ -156,7 +155,9 @@ export default function cartReducer(state = initialState, action) {
       return {
         ...state,
         orderDetails: state.orderDetails.map((item) =>
-          item.id === action.cart.id ? action.cart : item
+          item.productId === action.cart.orderDetails.productId
+            ? action.cart.orderDetails
+            : item
         ),
       };
     case CHECKOUT:
