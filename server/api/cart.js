@@ -2,21 +2,30 @@ const router = require("express").Router();
 const {
   models: { Order, OrderDetail, Product },
 } = require("../db");
-const { requireToken, isAdmin, verifyUser } = require("./gatekeeper");
+const { requireToken, verifyUser } = require("./gatekeeper");
 
 // thoughts for the future - "loaded models, mini routes"
 
 //Get 'Cart' (Open Order)
-
 router.get("/:id", requireToken, verifyUser, async (req, res, next) => {
   let currentUser = req.params.id;
   try {
     const orders = await Order.findAll({
+      attributes: ["id", "orderComplete", "userId"],
       where: { userId: currentUser, orderComplete: false },
       include: {
         model: OrderDetail,
+        attributes: ["id", "orderId", "productId", "quantity", "totalPrice"],
         include: {
           model: Product,
+          attributes: [
+            "description",
+            "id",
+            "imageUrl",
+            "name",
+            "price",
+            "quantity",
+          ],
         },
       },
     });
@@ -46,51 +55,6 @@ router.post("/:id/create", requireToken, verifyUser, async (req, res, next) => {
   }
 });
 
-// Adjust number of item in cart
-router.post("/:id", requireToken, verifyUser, async (req, res, next) => {
-  // Adding an item to an existing cart
-  try {
-    res.send(
-      await OrderDetail.create({
-        orderId: req.body.cartId,
-        productId: req.body.id,
-        totalPrice: req.body.price,
-      })
-    );
-  } catch (error) {
-    next(error);
-  }
-});
-
-//Get Order History (Complete Orders)
-
-//Incrementing Cart
-/* This route needs to be updated once we develop a form that sends OrderId, ProductId, and Quantity
-in the request body.  */
-router.put(
-  "/:orderId/:productId/:quantity",
-  requireToken,
-  verifyUser,
-  async (req, res, next) => {
-    try {
-      let updated = await OrderDetail.update(
-        { quantity: req.params.quantity },
-        {
-          where: {
-            orderId: req.params.orderId,
-            productId: req.params.productId,
-          },
-          returning: true,
-        }
-      );
-      console.log(updated[1][0].dataValues);
-      res.send(updated[1][0].dataValues);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
 //Checkout Cart
 router.put(
   "/:id/checkout",
@@ -113,6 +77,44 @@ router.put(
     }
   }
 );
+
+// Adjust number of item in cart
+router.post("/:id", requireToken, verifyUser, async (req, res, next) => {
+  // Adding an item to an existing cart
+  try {
+    res.send(
+      await OrderDetail.create({
+        orderId: req.body.cartId,
+        productId: req.body.id,
+        totalPrice: req.body.price,
+      })
+    );
+  } catch (error) {
+    next(error);
+  }
+});
+
+//Get Order History (Complete Orders)
+
+//Incrementing Cart
+/* This route needs to be updated once we develop a form that sends OrderId, ProductId, and Quantity
+in the request body.  */
+router.put("/:id/edit", requireToken, verifyUser, async (req, res, next) => {
+  console.log(req.body);
+  try {
+    let updatedField = await OrderDetail.update(
+      { quantity: req.body.quantity },
+      {
+        where: { orderId: req.body.orderId, productId: req.body.productId },
+        returning: true,
+      }
+    );
+    let product = await Product.findByPk(req.body.productId);
+    res.send({ updatedField, product });
+  } catch (error) {
+    next(error);
+  }
+});
 
 //Remove Item from Cart
 router.delete(

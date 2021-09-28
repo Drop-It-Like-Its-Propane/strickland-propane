@@ -2,8 +2,9 @@ import axios from "axios";
 
 //ACTION TYPES
 const SET_CART = "SET_CART";
-const ADD_ITEM = "ADD_ITEM";
 const CREATE_CART = "CREATE_CART";
+const ADD_ITEM = "ADD_ITEM";
+const EDIT_CART = "EDIT_CART";
 const CHECKOUT = "CHECKOUT";
 const DELETE_ITEM = "DELETE_ITEM";
 
@@ -37,6 +38,13 @@ export const _deleteItem = (item) => {
   return {
     type: DELETE_ITEM,
     item,
+  };
+};
+
+export const _editCart = (cart) => {
+  return {
+    type: "EDIT_CART",
+    cart,
   };
 };
 
@@ -84,30 +92,48 @@ export const addItem = (id, orderDetails) => {
 };
 
 //checkout cart
-export const checkout = (id) => {
+export const checkout = (id, history) => {
   return async (dispatch) => {
     try {
-      const response = await axios.put(`api/cart/${id}/checkout`, {
+      const response = await axios.put(`/api/cart/${id}/checkout`, null, {
         headers: { authorization: window.localStorage.getItem("token") },
       });
       dispatch(_checkout(response.data));
+      history.push(`/checkout/confirmation`);
     } catch (error) {
       //stuff happens
     }
   };
 };
 
-//delete cart
-export const deleteItem = (item) => {
+//delete Item
+export const deleteItem = (id) => {
   return async (dispatch) => {
     try {
-      console.log("delete thunk id", item);
-      const res = await axios.delete(`api/cart/104/101/13`, {
+      console.log("delete thunk id", id);
+      const { data } = await axios.delete(`api/cart/${id}`, {
         headers: { authorization: window.localStorage.getItem("token") },
       });
-      console.log(res);
-      dispatch(_deleteItem(item));
-    } catch (error) {}
+      dispatch(_deleteItem(data));
+    } catch (error) {
+      //stuff}
+    }
+  };
+};
+
+//edit item quantity in cart
+export const editQuantity = (id, orderData) => {
+  console.log(orderData);
+  return async (dispatch) => {
+    try {
+      console.log("reached this point");
+      const { data } = await axios.put(`/api/cart/${id}/edit`, orderData, {
+        headers: { authorization: window.localStorage.getItem("token") },
+      });
+      dispatch(_editCart(data[1]));
+    } catch (error) {
+      //stuff}
+    }
   };
 };
 
@@ -128,9 +154,16 @@ export default function cartReducer(state = initialState, action) {
     case ADD_ITEM:
       return { ...state, orderDetails: [...state.orderDetails, action.item] };
     case DELETE_ITEM:
-      console.log("state", state);
-      console.log("action", action);
-      return state.orderDetails;
+      return state.filter((item) => item.id !== action.item.id);
+    case EDIT_CART:
+      return {
+        ...state,
+        orderDetails: state.orderDetails.map((item) =>
+          item.id === action.cart.id ? action.cart : item
+        ),
+      };
+    case CHECKOUT:
+      return action.cart;
     default:
       return state;
   }
