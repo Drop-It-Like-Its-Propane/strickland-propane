@@ -5,7 +5,7 @@ import { fetchProduct } from "../store/singleProduct";
 import { addItem, fetchCart, createCart } from "../store/cart";
 import {me} from '../store/auth';
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+//import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css'; >This causes a crash, what does it do??
 
 //add 'Toast Notification" for adding item to cart
