@@ -2,7 +2,7 @@ const router = require("express").Router();
 const {
   models: { Order, OrderDetail, Product },
 } = require("../db");
-const { requireToken, isAdmin, verifyUser } = require("./gatekeeper");
+const { requireToken, verifyUser } = require("./gatekeeper");
 
 // thoughts for the future - "loaded models, mini routes"
 

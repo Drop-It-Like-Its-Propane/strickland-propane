@@ -2,8 +2,9 @@ import axios from "axios";
 
 //ACTION TYPES
 const SET_CART = "SET_CART";
-const ADD_ITEM = "ADD_ITEM";
 const CREATE_CART = "CREATE_CART";
+const ADD_ITEM = "ADD_ITEM";
+const EDIT_CART = "EDIT_CART";
 const CHECKOUT = "CHECKOUT";
 const DELETE_ITEM = "DELETE_ITEM";
 
@@ -40,6 +41,13 @@ export const _deleteItem = (cart) => {
   };
 };
 
+export const _editCart = (cart) => {
+  return {
+    type: "EDIT_CART",
+    cart
+  }
+}
+
 //THUNKS
 //get all items in current cart
 export const fetchCart = (id) => {
@@ -59,8 +67,9 @@ export const fetchCart = (id) => {
 export const createCart = (id, product) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/api/cart/${id}/create`, product, {
-        headers: { authorization: window.localStorage.getItem("token") },
+      const response = await axios.post(`/api/cart/${id}/create`, product,
+      {
+        headers: { authorization: window.localStorage.getItem("token")},
       });
       dispatch(_createCart(response.data));
     } catch (error) {
@@ -89,9 +98,9 @@ export const checkout = (id, history) => {
     try {
       const response = await axios.put(`/api/cart/${id}/checkout`, null, {
         headers: { authorization: window.localStorage.getItem("token") },
-      });
+      })
       dispatch(_checkout(response.data));
-      history.push(`/checkout/confirmation`);
+      history.push(`/checkout/confirmation`)
     } catch (error) {
       //stuff happens
     }
@@ -107,11 +116,24 @@ export const deleteItem = (id) => {
         headers: { authorization: window.localStorage.getItem("token") },
       });
       dispatch(_deleteItem(data));
-    } catch (error) {
-      //stuff}
-    }
-  };
-};
+    } catch (error) {//stuff}
+  }
+}}
+
+//edit item quantity in cart
+export const editQuantity = (id ,orderData) => {
+  console.log(orderData)
+  return async (dispatch) => {
+    try {
+      console.log('reached this point')
+      const {data } = await axios.put(`/api/cart/${id}/edit`, orderData, {
+        headers: { authorization: window.localStorage.getItem("token") },
+      })
+      ;
+      dispatch(_editCart(data[1]));
+    } catch (error) {//stuff}
+  }
+}}
 
 //REDUCER
 //Initial State
@@ -123,23 +145,16 @@ export default function cartReducer(state = initialState, action) {
     case SET_CART:
       return action.cart;
     case CREATE_CART:
-      return {
-        ...action.cart.newOrder,
-        orderDetails: [action.cart.newOrderDetails],
-      };
+      return {...action.cart.newOrder, orderDetails: [action.cart.newOrderDetails] }
     case ADD_ITEM:
       return { ...state, orderDetails: [...state.orderDetails, action.item] };
     case DELETE_ITEM:
       return state.filter((item) => item.id !== action.item.id);
     case EDIT_CART:
-      return {
-        ...state,
-        orderDetails: state.orderDetails.map((item) =>
-          item.id === action.cart.id ? action.cart : item
-        ),
-      };
+      return {...state, orderDetails: state.orderDetails.map((item)=>
+        item.id === action.cart.id ? action.cart : item)}
     case CHECKOUT:
-      return action.cart;
+      return action.cart
     default:
       return state;
   }
