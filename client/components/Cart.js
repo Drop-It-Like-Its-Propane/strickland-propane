@@ -11,16 +11,15 @@ class Cart extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
+    console.log(this.props)
     this.props.getCart(this.props.match.params.id);
   }
   handleClick(event) {
     event.preventDefault();
-    this.props.checkout(this.props.match.params.id);
-  }
+    this.props.checkout(this.props.match.params.id)}
 
   render() {
-    console.log(this.props);
-    const userOrderDetails = this.props.cart.orderDetails || [];
+    const userOrderDetails = this.props.cart.orderDetails || []
     return (
       <div className="container">
         <h2> User Cart </h2>

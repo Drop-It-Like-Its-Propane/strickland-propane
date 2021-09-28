@@ -24,13 +24,14 @@ export class CartItem extends React.Component {
   }
 
   render() {
-    const { item } = this.props;
+    const { item } = this.props || [];
+    const {product} = this.props.item|| []
     return (
       <div>
-        <div>{item.product.name}</div>
+        <div>{product.name}</div>
         <img src={item.imageUrl} />
-        <div> {item.product.description} </div>
-        <div>${this.insertDecimal(item.product.price)}</div>
+        <div> {product.description} </div>
+        <div>${this.insertDecimal(product.price)}</div>
         <form htmlFor="quantity" onSubmit={this.handleSubmit}>
           <label htmlFor="quantity">Quantity:</label>
           <select name="quantity" id="quantity">
