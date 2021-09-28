@@ -18,7 +18,6 @@ class Cart extends React.Component {
     this.props.checkout(this.props.match.params.id)}
 
   render() {
-    console.log("props", this.props);
     const userOrderDetails = this.props.cart.orderDetails || [];
     return (
       <div className="container">

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import { Header } from './Header'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
+const Navbar = ({handleClick, isLoggedIn, user}) => (
   <div>
     <Header />
     <nav>
@@ -17,7 +17,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
             Logout
           </a></div>
           <div className="singleContainer"><Link to="/users/:id">My Profile</Link></div>
-          <div className="singleContainer"><Link to="/cart/:id">My Cart</Link></div>
+          <div className="singleContainer"><Link to={`/cart/${user.id}`}>My Cart</Link></div>
         </div>
       ) : (
         <div className="container">
@@ -26,7 +26,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <div className="singleContainer"><Link to="/signup">Sign Up</Link></div>
           <div className="singleContainer"><Link to="/home">Home</Link></div>
           <div className="singleContainer"><Link to="/products"> All Products  </Link></div>
-          <div className="singleContainer"><Link to="/cart/:id">My Cart</Link></div>
+          <div className="singleContainer"><Link to={`/cart/${user.id}`}>My Cart</Link></div>
         </div>
       )}
     </nav>
@@ -39,7 +39,8 @@ const Navbar = ({handleClick, isLoggedIn}) => (
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.auth.id
+    isLoggedIn: !!state.auth.id,
+    user: state.auth
   }
 }
 
