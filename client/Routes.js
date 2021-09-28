@@ -9,7 +9,7 @@ import { me } from "./store";
 import SingleProduct from "./components/SingleProduct";
 import OrderConfirmation from "./components/CheckoutConfirmation";
 import SingleUser from './components/SingleUser'
-import Cart from "./components/Cart";
+import CartPlaceholder from "./components/Cart";
 
 /**
  * COMPONENT
@@ -33,8 +33,7 @@ class Routes extends Component {
             <Route path="/signup" component={Signup} />
             <Route exact path="/products/:id" component={SingleProduct}/>
             <Route path="/users/:userid" component={SingleUser} />
-            <Route exact path="/checkout/confirmation" component={OrderConfirmation} />
-            <Route exact path="/cart/:id" component={Cart} />
+            <Route exact path="/cart/:id" component={CartPlaceholder} />
 
           </Switch>
         ) : (
@@ -45,8 +44,8 @@ class Routes extends Component {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route exact path="/products/:id" component={SingleProduct} />
-            <Route path="/cart/:id" component={Cart} />
-            <Route exact path="/checkout/confirmation" component={OrderConfirmation} />
+            <Route exact path="/cart/checkout" component={OrderConfirmation} />
+            <Route exact path="/cart/:id" component={CartPlaceholder} />
           </Switch>
         )}
         {/* {isAdmin ? (
