@@ -2,7 +2,7 @@
 
 import React from "react";
 import { connect } from "react-redux";
-import { fetchCart, checkout, deleteItem } from "../store/cart";
+import { fetchCart, checkout } from "../store/cart";
 import CartItem from "./CartItem";
 
 class Cart extends React.Component {
@@ -13,12 +13,19 @@ class Cart extends React.Component {
   componentDidMount() {
     this.props.getCart(this.props.match.params.id);
   }
+  componentDidUpdate(prevProps) {
+    if(this.props.cart.length !== prevProps.cart.length)
+    this.props.getCart(this.props.match.params.id);
+  }
+
   handleClick(event) {
     event.preventDefault();
     this.props.checkout(this.props.match.params.id)}
 
   render() {
-    console.log("props", this.props);
+    if(!this.props.cart) {
+      return <div>Loading...</div>
+    } else {
     const userOrderDetails = this.props.cart.orderDetails || [];
     return (
       <div className="container">
@@ -26,16 +33,6 @@ class Cart extends React.Component {
         {userOrderDetails.map((item) => {
           return (
             <div key={item.id} className="singleContainer">
-              <button
-                onClick={() =>
-                  this.props.deleteButton(this.props.userId, {
-                    orderId: this.props.cart.orderId,
-                    productId: item.productId,
-                  })
-                }
-              >
-                X
-              </button>
               <CartItem userId={this.props.cart.userId} item={item} />
             </div>
           );
@@ -45,7 +42,7 @@ class Cart extends React.Component {
         <button onClick={this.handleClick}>Checkout</button>
       </div>
     );
-  }
+  }}
 }
 
 const mapState = (state) => {
@@ -54,10 +51,11 @@ const mapState = (state) => {
   };
 };
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = (dispatch, {history}) => {
   return {
     getCart: (id) => dispatch(fetchCart(id)),
-    deleteButton: (id, theOrder) => dispatch(deleteItem(id, theOrder)),
+    checkout: (id) => dispatch(checkout(id, history))
+
   };
 };
 
