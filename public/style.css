@@ -96,3 +96,10 @@ form div {
   top: 50%;
   font-size: xx-large;
 }
+
+#cart {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+

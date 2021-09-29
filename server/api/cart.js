@@ -47,7 +47,6 @@ router.post("/:id/create", requireToken, verifyUser, async (req, res, next) => {
     let newOrder = await Order.create({
       userId: currentUser,
     });
-
     let newOrderDetails = await OrderDetail.create({
       orderId: newOrder.id,
       productId: req.body.id,
@@ -88,13 +87,13 @@ router.put("/:id/edit", requireToken, verifyUser, async (req, res, next) => {
         where: { orderId: req.body.orderId, productId: req.body.productId },
         returning: true,
       }
-    )
+    );
     //product: {...product.dataValues}
-    let product = await Product.findByPk(req.body.productId)
-    let Object1 = updatedField[0]
-    let object2 = {product}
+    let product = await Product.findByPk(req.body.productId);
+    let Object1 = updatedField[0];
+    let object2 = { product };
     //build response object before sending
-    res.send({Object1, object2})
+    res.send({ Object1, object2 });
   } catch (error) {
     next(error);
   }
@@ -124,35 +123,15 @@ router.put(
 );
 
 //Remove Item from Cart
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-router.delete("/:id/:orderId/:productId",requireToken, verifyUser, async (req, res, next) => {
-// localhost8080/api/cart/101/52/12
-// update to be more semantic - more slashes!
-  try {
-    res.send(
-      await OrderDetail.destroy({
-=======
->>>>>>> bccb85a1148b5b70391a11e4b974ad6d0f3ed28a
 router.delete(
   "/:id/delete",
   // requireToken,
   // verifyUser,
   async (req, res, next) => {
     try {
-      const od = await OrderDetail.findOne({
-<<<<<<< HEAD
-=======
->>>>>>> 0bd782b2cd86d91cce3a2e806d251a8c3f1ea5d1
->>>>>>> bccb85a1148b5b70391a11e4b974ad6d0f3ed28a
-        where: {
-          orderId: req.body.orderId,
-          productId: req.body.productId,
-        },
-      });
-      await od.destroy();
-      res.send(od);
+      const removeItem = await OrderDetail.findByPk(req.body.id);
+      await removeItem.destroy();
+      res.send(removeItem);
     } catch (error) {
       next(error);
     }

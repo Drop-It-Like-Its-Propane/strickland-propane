@@ -67,7 +67,9 @@ export const fetchCart = (id) => {
 export const createCart = (id, product) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/api/cart/${id}/create`, product);
+      const response = await axios.post(`/api/cart/${id}/create`, product, {
+        headers: { authorization: window.localStorage.getItem("token") },
+      });
       dispatch(_createCart(response.data));
     } catch (error) {
       //stuff happens
@@ -79,7 +81,9 @@ export const createCart = (id, product) => {
 export const addItem = (id, orderDetails) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/api/cart/${id}`, orderDetails);
+      const response = await axios.post(`/api/cart/${id}`, orderDetails, {
+        headers: { authorization: window.localStorage.getItem("token") },
+      });
       dispatch(_addItem(response.data));
     } catch (error) {
       //stuff happens
@@ -88,13 +92,14 @@ export const addItem = (id, orderDetails) => {
 };
 
 //checkout cart
-export const checkout = (id) => {
+export const checkout = (id, history) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(`/api/cart/${id}/checkout`, null, {
         headers: { authorization: window.localStorage.getItem("token") },
       });
       dispatch(_checkout(response.data));
+      history.push(`/checkout/confirmation`);
     } catch (error) {
       //stuff happens
     }
@@ -102,28 +107,29 @@ export const checkout = (id) => {
 };
 
 //delete Item
-export const deleteItem = (id, theOrder) => {
+export const deleteItem = (id, itemId, history) => {
   return async (dispatch) => {
     try {
-      console.log("id & theOrder", item, theOrder);
-      const { data } = await axios.delete(`api/cart/${id}/delete`, theOrder, {
+      const {data} = await axios.delete(`/api/cart/${id}/delete`, {data: {id:itemId}}, {
         headers: { authorization: window.localStorage.getItem("token") },
       });
-      console.log("the data!", data);
       dispatch(_deleteItem(data));
-    } catch (error) {}
+      history.push(`/cart/${id}/`);
+    } catch (error) {
+      //stuff
+    }
   };
 };
 
 //edit item quantity in cart
-export const editQuantity = (id, orderData) => {
-  console.log(orderData);
+export const editQuantity = (id, orderData, history) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.put(`/api/cart/${id}/edit`, orderData, {
         headers: { authorization: window.localStorage.getItem("token") },
       });
       dispatch(_editCart(data));
+      history.push(`/cart/${id}/`);
     } catch (error) {
       //stuff}
     }
@@ -147,10 +153,7 @@ export default function cartReducer(state = initialState, action) {
     case ADD_ITEM:
       return { ...state, orderDetails: [...state.orderDetails, action.item] };
     case DELETE_ITEM:
-      const newCart = state.orderDetails.filter(
-        (item) => item.productId !== action.item.productId
-      );
-      return { ...state, orderDetails: [...newCart] };
+      return state.orderDetails.filter((item) => item.id !== action.item.id);
     case EDIT_CART:
       return {
         ...state,

@@ -4,49 +4,33 @@ import { Link } from "react-router-dom";
 import { logout } from "../store";
 import { Header } from "./Header";
 
+<<<<<<< HEAD
 const Navbar = ({ handleClick, isLoggedIn }) => (
+=======
+const Navbar = ({handleClick, isLoggedIn, user}) => (
+>>>>>>> 10988e1ef511f661610e3085abcc783400cb0182
   <div>
     <Header />
     <nav>
       {isLoggedIn ? (
         <div className="container">
           {/* The navbar will show these links after you log in */}
-          <div className="singleContainer">
-            <Link to="/home">Home</Link>
-          </div>
-          <div className="singleContainer">
-            <Link to="/products"> All Products </Link>
-          </div>
-          <div className="singleContainer">
-            <a href="#" onClick={handleClick}>
-              Logout
-            </a>
-          </div>
-          <div className="singleContainer">
-            <Link to="/users/:id">My Profile</Link>
-          </div>
-          <div className="singleContainer">
-            <Link to="/cart/:id">My Cart</Link>
-          </div>
+          <div className="singleContainer"><Link to="/home">Home</Link></div>
+          <div className="singleContainer"><Link to="/products"> All Products  </Link></div>
+          <div className="singleContainer"><a href="#" onClick={handleClick}>
+            Logout
+          </a></div>
+          <div className="singleContainer"><Link to="/users/:id">My Profile</Link></div>
+          <div className="singleContainer"><Link to={`/cart/${user.id}`}>My Cart</Link></div>
         </div>
       ) : (
         <div className="container">
           {/* The navbar will show these links before you log in */}
-          <div className="singleContainer">
-            <Link to="/login">Login</Link>
-          </div>
-          <div className="singleContainer">
-            <Link to="/signup">Sign Up</Link>
-          </div>
-          <div className="singleContainer">
-            <Link to="/home">Home</Link>
-          </div>
-          <div className="singleContainer">
-            <Link to="/products"> All Products </Link>
-          </div>
-          <div className="singleContainer">
-            <Link to="/cart/:id">My Cart</Link>
-          </div>
+          <div className="singleContainer"><Link to="/login">Login</Link></div>
+          <div className="singleContainer"><Link to="/signup">Sign Up</Link></div>
+          <div className="singleContainer"><Link to="/home">Home</Link></div>
+          <div className="singleContainer"><Link to="/products"> All Products  </Link></div>
+          <div className="singleContainer"><Link to={`/cart/${user.id}`}>My Cart</Link></div>
         </div>
       )}
     </nav>
@@ -60,8 +44,9 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
-  };
-};
+    user: state.auth
+  }
+}
 
 const mapDispatch = (dispatch) => {
   return {
