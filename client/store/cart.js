@@ -67,7 +67,9 @@ export const fetchCart = (id) => {
 export const createCart = (id, product) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/api/cart/${id}/create`, product);
+      const response = await axios.post(`/api/cart/${id}/create`, product, {
+        headers: { authorization: window.localStorage.getItem("token") },
+      });
       dispatch(_createCart(response.data));
     } catch (error) {
       //stuff happens
@@ -79,7 +81,9 @@ export const createCart = (id, product) => {
 export const addItem = (id, orderDetails) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/api/cart/${id}`, orderDetails);
+      const response = await axios.post(`/api/cart/${id}`, orderDetails, {
+        headers: { authorization: window.localStorage.getItem("token") },
+      });
       dispatch(_addItem(response.data));
     } catch (error) {
       //stuff happens
@@ -105,13 +109,14 @@ export const checkout = (id) => {
 export const deleteItem = (id, theOrder) => {
   return async (dispatch) => {
     try {
-      console.log("id & theOrder", item, theOrder);
       const { data } = await axios.delete(`api/cart/${id}/delete`, theOrder, {
         headers: { authorization: window.localStorage.getItem("token") },
       });
       console.log("the data!", data);
       dispatch(_deleteItem(data));
-    } catch (error) {}
+    } catch (error) {
+      //stuff
+    }
   };
 };
 
@@ -147,10 +152,7 @@ export default function cartReducer(state = initialState, action) {
     case ADD_ITEM:
       return { ...state, orderDetails: [...state.orderDetails, action.item] };
     case DELETE_ITEM:
-      const newCart = state.orderDetails.filter(
-        (item) => item.productId !== action.item.productId
-      );
-      return { ...state, orderDetails: [...newCart] };
+      return state.filter((item) => item.id !== action.item.id);
     case EDIT_CART:
       return {
         ...state,

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { connect } from "react-redux";
-import { fetchCart, checkout, deleteItem } from "../store/cart";
+import { fetchCart, checkout } from "../store/cart";
 import CartItem from "./CartItem";
 
 class Cart extends React.Component {
@@ -56,7 +56,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getCart: (id) => dispatch(fetchCart(id)),
-    deleteButton: (id, theOrder) => dispatch(deleteItem(id, theOrder)),
+    checkout: (id) => dispatch(checkout(id, history))
   };
 };
 
