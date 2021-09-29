@@ -5,8 +5,8 @@ import { fetchProduct } from "../store/singleProduct";
 import { addItem, fetchCart, createCart } from "../store/cart";
 import { me } from "../store/auth";
 import { Link } from "react-router-dom";
-//import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css'; >This causes a crash, what does it do??
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //add 'Toast Notification" for adding item to cart
 //Add in STRIPE
@@ -50,8 +50,8 @@ class SingleProduct extends React.Component {
     }
   }
 
-  // notify(){
-  //   return toast("Item added to cart!")}
+  notify(){
+    return toast("Item added to cart!")}
 
   render() {
     const { product } = this.props;
@@ -61,8 +61,8 @@ class SingleProduct extends React.Component {
         <img className="singleProductImg" src="../proPAIN.jpg" />
         <div>{this.insertDecimal(product.price)}</div>
         <p>{product.description}</p>
-        <button onClick={this.handleClick}>Add to Cart</button>
-        {/* <ToastContainer /> */}
+        <button onClick={this.handleClick, this.notify}>Add to Cart</button>
+        <ToastContainer />
         <Link to="/products"> All Products </Link>
       </div>
     );
