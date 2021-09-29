@@ -92,7 +92,7 @@ export const addItem = (id, orderDetails) => {
 };
 
 //checkout cart
-export const checkout = (id) => {
+export const checkout = (id, history) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(`/api/cart/${id}/checkout`, null, {
