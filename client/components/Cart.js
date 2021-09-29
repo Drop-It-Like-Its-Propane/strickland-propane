@@ -28,7 +28,7 @@ class Cart extends React.Component {
     } else {
     const userOrderDetails = this.props.cart.orderDetails || [];
     return (
-      <div className="container">
+      <div className="container" id='cart'>
         <h2> User Cart </h2>
         {userOrderDetails.map((item) => {
           return (

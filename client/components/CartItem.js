@@ -39,7 +39,7 @@ export class CartItem extends React.Component {
     } else {
       return (
         <div>
-          <div>
+          <div >
             <button onClick={this.handleClick}> x </button>
             <div>{product.name}</div>
             <img src={item.imageUrl} />
