@@ -47,7 +47,6 @@ router.post("/:id/create", requireToken, verifyUser, async (req, res, next) => {
     let newOrder = await Order.create({
       userId: currentUser,
     });
-
     let newOrderDetails = await OrderDetail.create({
       orderId: newOrder.id,
       productId: req.body.id,
@@ -130,14 +129,9 @@ router.delete(
   // verifyUser,
   async (req, res, next) => {
     try {
-      const od = await OrderDetail.findOne({
-        where: {
-          orderId: req.body.orderId,
-          productId: req.body.productId,
-        },
-      });
-      await od.destroy();
-      res.send(od);
+      const removeItem = await OrderDetail.findByPk(req.body.id);
+      await removeItem.destroy();
+      res.send(removeItem);
     } catch (error) {
       next(error);
     }

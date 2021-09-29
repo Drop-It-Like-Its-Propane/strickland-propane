@@ -13,11 +13,19 @@ class Cart extends React.Component {
   componentDidMount() {
     this.props.getCart(this.props.match.params.id);
   }
+  componentDidUpdate(prevProps) {
+    if(this.props.cart.length !== prevProps.cart.length)
+    this.props.getCart(this.props.match.params.id);
+  }
+
   handleClick(event) {
     event.preventDefault();
     this.props.checkout(this.props.match.params.id)}
 
   render() {
+    if(!this.props.cart) {
+      return <div>Loading...</div>
+    } else {
     const userOrderDetails = this.props.cart.orderDetails || [];
     return (
       <div className="container">
@@ -25,16 +33,6 @@ class Cart extends React.Component {
         {userOrderDetails.map((item) => {
           return (
             <div key={item.id} className="singleContainer">
-              <button
-                onClick={() =>
-                  this.props.deleteButton(this.props.userId, {
-                    orderId: this.props.cart.orderId,
-                    productId: item.productId,
-                  })
-                }
-              >
-                X
-              </button>
               <CartItem userId={this.props.cart.userId} item={item} />
             </div>
           );
@@ -44,7 +42,7 @@ class Cart extends React.Component {
         <button onClick={this.handleClick}>Checkout</button>
       </div>
     );
-  }
+  }}
 }
 
 const mapState = (state) => {
@@ -57,6 +55,7 @@ const mapDispatch = (dispatch) => {
   return {
     getCart: (id) => dispatch(fetchCart(id)),
     checkout: (id) => dispatch(checkout(id, history))
+
   };
 };
 
