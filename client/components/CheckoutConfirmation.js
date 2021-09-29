@@ -7,7 +7,7 @@ const OrderConfirmation = () => {
   return (
     <div>
       <h2> Order Placed! Thanks!</h2>
-      <Link to={`/products/`} replace>Continue Shopping</Link>
+      <Link to={'/products'} replace>Continue Shopping</Link>
     </div>
   )
 }

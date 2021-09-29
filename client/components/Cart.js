@@ -14,8 +14,8 @@ class Cart extends React.Component {
     this.props.getCart(this.props.match.params.id);
   }
   componentDidUpdate(prevProps) {
-    if(this.props.cart.length !== prevProps.cart.length)
-    this.props.getCart(this.props.match.params.id);
+    if (this.props.cart.length !== prevProps.cart.length)
+      this.props.getCart(this.props.match.params.id);
   }
 
   handleClick(event) {
@@ -24,26 +24,27 @@ class Cart extends React.Component {
   }
 
   render() {
-    if(!this.props.cart) {
-      return <div>Loading...</div>
+    if (!this.props.cart) {
+      return <div>Loading...</div>;
     } else {
-    const userOrderDetails = this.props.cart.orderDetails || [];
-    return (
-      <div className="container" id='cart'>
-        <h2> User Cart </h2>
-        {userOrderDetails.map((item) => {
-          return (
-            <div key={item.id} className="singleContainer">
-              <CartItem userId={this.props.cart.userId} item={item} />
-            </div>
-          );
-        })}
+      const userOrderDetails = this.props.cart.orderDetails || [];
+      return (
+        <div className="container" id="cart">
+          <h2> User Cart </h2>
+          {userOrderDetails.map((item) => {
+            return (
+              <div key={item.id} className="singleContainer">
+                <CartItem userId={this.props.cart.userId} item={item} />
+              </div>
+            );
+          })}
 
-        <div>Total Price: *Pending </div>
-        <button onClick={this.handleClick}>Checkout</button>
-      </div>
-    );
-  }}
+          <div>Total Price: *Pending </div>
+          <button onClick={this.handleClick}>Checkout</button>
+        </div>
+      );
+    }
+  }
 }
 
 const mapState = (state) => {
@@ -52,11 +53,10 @@ const mapState = (state) => {
   };
 };
 
-const mapDispatch = (dispatch, {history}) => {
+const mapDispatch = (dispatch, { history }) => {
   return {
     getCart: (id) => dispatch(fetchCart(id)),
-    checkout: (id) => dispatch(checkout(id, history))
-
+    checkout: (id) => dispatch(checkout(id, history)),
   };
 };
 
