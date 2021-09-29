@@ -1,12 +1,20 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {signupUser} from '../store'
+import {Link} from 'react-router-dom'
 
-const SignupPage = props => {
-    const {name, displayName, handleSubmit, error} = props
-  
+class SignupPage extends React.Component {
+ 
+  render(){
+    const {name, displayName, handleSubmit, error, signedUp} = this.props
     return (
       <div>
+        {signedUp ? (
+        <div>
+          <h1>Welcome!</h1>
+          <Link to={'/products'}>Let's Shop</Link>
+        </div>
+        ) : (
         <form onSubmit={handleSubmit} name={name}>
           <div>
             <label htmlFor="username">
@@ -42,9 +50,11 @@ const SignupPage = props => {
             <button type="submit">{displayName}</button>
           </div>
           {error && error.response && <div> {error.response.data} </div>}
-        </form>
+        </form>)}
+        
       </div>
     )
+   }
   }
   
   /**
@@ -66,6 +76,7 @@ const SignupPage = props => {
     return {
       name: 'signup',
       displayName: 'Sign Up',
+      signedUp: !!state.auth.id,
       error: state.auth.error
     }
   }

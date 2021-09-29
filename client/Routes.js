@@ -7,7 +7,7 @@ import { Signup } from "./components/SignupForm";
 import Home from "./components/Home";
 import { me } from "./store";
 import SingleProduct from "./components/SingleProduct";
-import OrderConfirmation from "./components/CheckoutConfirmation";
+import CheckoutConfirmation from "./components/CheckoutConfirmation";
 import SingleUser from './components/SingleUser'
 import Cart from "./components/Cart";
 
@@ -32,9 +32,9 @@ class Routes extends Component {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route exact path="/products/:id" component={SingleProduct}/>
-            <Route path="/users/:userid" component={SingleUser} />
-            <Route exact path="/checkout/confirmation" component={OrderConfirmation} />
             <Route exact path="/cart/:id" component={Cart} />
+            <Route exact path="/checkout/confirmation" component={CheckoutConfirmation} />
+            <Route path="/users/:userid" component={SingleUser} />
 
           </Switch>
         ) : (
@@ -45,8 +45,8 @@ class Routes extends Component {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route exact path="/products/:id" component={SingleProduct} />
-            <Route path="/cart/:id" component={Cart} />
-            <Route exact path="/checkout/confirmation" component={OrderConfirmation} />
+            <Route exact path="/cart/:id" component={Cart} />
+            <Route exact path="/checkout/confirmation" component={CheckoutConfirmation} />
           </Switch>
         )}
         {/* {isAdmin ? (
