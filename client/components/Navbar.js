@@ -5,7 +5,6 @@ import {logout} from '../store'
 import { Header } from './Header'
 
 const Navbar = ({handleClick, isLoggedIn, user}) => (
-
   <div>
     <Header />
     <nav>
@@ -17,7 +16,7 @@ const Navbar = ({handleClick, isLoggedIn, user}) => (
           <div className="singleContainer"><a href="#" onClick={handleClick}>
             Logout
           </a></div>
-          <div className="singleContainer"><Link to="/SingleUser">My Profile</Link></div>
+          <div className="singleContainer"><Link to="/users/:id">My Profile</Link></div>
           <div className="singleContainer"><Link to={`/cart/${user.id}`}>My Cart</Link></div>
         </div>
       ) : (
